@@ -10,7 +10,7 @@
   (:gen-class))
 
 
-(def env [k v]
+(defn env [k v]
   (or (System/getenv K) v))
 
 (def PORT (env "PORT" 4040))
