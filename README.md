@@ -2,35 +2,30 @@
 
 FIXME: description
 
-## Installation
+## Build
 
-Download from http://example.com/FIXME.
+```
+
+docker build -t emb/halti-server .
+```
+
 
 ## Usage
 
-FIXME: explanation
+```
+PORT=4040
+MONGO_URI=mongodb://192.168.99.100:32768/halti
+PRODUCTION=no
+```
 
-    $ java -jar halti-server-0.1.0-standalone.jar [args]
+```
 
-## Options
-
-FIXME: listing of options this app accepts.
-
-## Examples
-
-...
+```
 
 ### Bugs
 
-...
-
-### Any Other Sections
-### That You Think
-### Might be Useful
+not known bugs currently
 
 ## License
 
-Copyright © 2016 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Copyright © 2016 Emblica / Teemu Heikkilä
