@@ -13,7 +13,7 @@
 (defn env [k v]
   (or (System/getenv k) v))
 
-(def PORT (env "PORT" 4040))
+(def PORT (int (env "PORT" 4040)))
 (def MONGO_URI (env "MONGO_URI" "mongodb://192.168.99.100:32768/halti"))
 
 (def in-dev? (= "no" (env "PRODUCTION" "no")))
