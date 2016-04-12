@@ -10,30 +10,31 @@
 
 
 (defn- hosts->containers [host]
-  (:containers host))
+  (map #(assoc % :host-instance-id (:instance_id host)) (:containers host)))
 
-(defn- service-id-decorated-port-f [service-id]
+(defn- decorated-port-f [base]
   (fn port->beautiful-port [port]
-    {:service-id service-id
-     :ip (:IP port)
-     :port (:PublicPort port)
-     :source (:PrivatePort port)}))
+    (merge base
+      {:address (:IP port)
+       :port (:PublicPort port)
+       :source (:PrivatePort port)})))
 
 (defn- container->service-port-pairs [container]
   (let [ports (:Ports container)
         service-id (subs (first (:Names container)) 1)
-        port->beautiful-port (service-id-decorated-port-f service-id)]
+        instance-id (:host-instance-id container)
+        port->beautiful-port (decorated-port-f {:service_id service-id
+                                                :instance_id instance-id})] ;})]
     (map port->beautiful-port ports)))
 
 
-
 (defn- service-port-pairs->grouped-addresses [service-port-pairs]
-  (group-by :service-id service-port-pairs))
+  (group-by :service_id service-port-pairs))
 
 
 (defn- remove-service-id+source [port]
   (-> port
-    (dissoc :service-id)
+    (dissoc :service_id)
     (dissoc :source)))
 
 
