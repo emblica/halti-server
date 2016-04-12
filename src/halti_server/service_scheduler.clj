@@ -6,12 +6,10 @@
             [halti-server.events :as events]
             [taoensso.timbre :as timbre :refer [info error warn debug]]
             [halti-server.scheduler]
-            [halti-server.config]))
+            [halti-server.utils :refer [deadline]]))
 
 (def MB (* 1024 1024))
 
-(defn- deadline []
-  (t/minus (t/now) (t/seconds halti-server.config/obituary-time)))
 
 (defn find-hosts [& args]
   (apply (partial mc/find-maps @mdb (:instances collection-names)) args))

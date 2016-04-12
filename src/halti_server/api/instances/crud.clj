@@ -2,12 +2,8 @@
   (:require [halti-server.utils :refer [json-request uuid]]
             [halti-server.api.instances.db :refer [find-instances find-instance]]
             [clj-time.core :as t]
-            [halti-server.config]))
-
-
-
-(defn- deadline []
-  (t/minus (t/now) (t/seconds halti-server.config/obituary-time)))
+            [halti-server.utils :refer [deadline]]))
+            
 
 
 (defn list-instances [req]

@@ -19,7 +19,7 @@ PRODUCTION=no
 ```
 
 ```
-
+docker run -d -p 10.4.1.224:4040:4040 --name halti-server --restart=always -e PORT=4040 -e MONGO_URI=mongodb://172.17.0.1/halti -e PRODUCTION=yes emb/halti-server
 ```
 
 ### Bugs
