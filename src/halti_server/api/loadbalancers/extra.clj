@@ -9,17 +9,17 @@
 
 
 
-(defn hosts->containers [host]
+(defn- hosts->containers [host]
   (:containers host))
 
-(defn service-id-decorated-port-f [service-id]
+(defn- service-id-decorated-port-f [service-id]
   (fn port->beautiful-port [port]
     {:service-id service-id
      :ip (:IP port)
      :port (:PublicPort port)
      :source (:PrivatePort port)}))
 
-(defn container->service-port-pairs [container]
+(defn- container->service-port-pairs [container]
   (let [ports (:Ports container)
         service-id (subs (first (:Names container)) 1)
         port->beautiful-port (service-id-decorated-port-f service-id)]
@@ -27,12 +27,25 @@
 
 
 
-(defn service-port-pairs->grouped-addresses [service-port-pairs]
+(defn- service-port-pairs->grouped-addresses [service-port-pairs]
   (group-by :service-id service-port-pairs))
 
 
+(defn- remove-service-id+source [port]
+  (-> port
+    (dissoc :service-id)
+    (dissoc :source)))
 
-(defn loadbalancer-configuration-data []
+
+(defn- ports+loadbalancer->loadbalancer-config [ports loadbalancer]
+  (let [loadbalancer-source (:source_port loadbalancer)
+        only-selected-port (fn [port] (= (:source port) loadbalancer-source))
+        service-id (:service_id loadbalancer)
+        service-ports (get ports service-id)
+        selected-ports (mapv remove-service-id+source (filter only-selected-port service-ports))]
+    (merge loadbalancer {:backends selected-ports})))
+
+(defn- loadbalancer-configuration-data []
   (let [enabled-loadbalancers (find-loadbalancers {:enabled true})
         healthy-hosts (find-instances {:last_heartbeat {"$gt" (deadline)}})
         ports-by-services (service-port-pairs->grouped-addresses
@@ -42,19 +55,6 @@
         loadbalancer+backends (partial ports+loadbalancer->loadbalancer-config ports-by-services)]
     (mapv loadbalancer+backends enabled-loadbalancers)))
 
-(defn- remove-service-id+source [port]
-  (-> port
-    (dissoc :service-id)
-    (dissoc :source)))
-
-
-(defn ports+loadbalancer->loadbalancer-config [ports loadbalancer]
-  (let [loadbalancer-source (:source_port loadbalancer)
-        only-selected-port (fn [port] (= (:source port) loadbalancer-source))
-        service-id (:service_id loadbalancer)
-        service-ports (get ports service-id)
-        selected-ports (mapv remove-service-id+source (filter only-selected-port service-ports))]
-    (merge loadbalancer {:backends selected-ports})))
 
 
 
