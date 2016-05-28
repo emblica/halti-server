@@ -6,13 +6,16 @@
 (def c (:loadbalancers collection-names))
 
 (defn insert-loadbalancer [& args]
-  (apply (partial mc/insert-and-return @mdb c) args))
+  (dissoc (apply (partial mc/insert-and-return @mdb c) args) :_id))
 
 (defn find-loadbalancer [& args]
-  (apply (partial mc/find-one-as-map @mdb c) args))
+  (dissoc (apply (partial mc/find-one-as-map @mdb c) args) :_id))
 
 (defn find-loadbalancers [& args]
-  (apply (partial mc/find-maps @mdb c) args))
+  (pmap #(dissoc % :_id) (apply (partial mc/find-maps @mdb c) args)))
+
+(defn find-enabled-loadbalancers []
+  (pmap #(dissoc % :_id) (find-loadbalancers {:enabled true})))
 
 (defn update-loadbalancer [& args]
   (updated-existing? (apply (partial mc/update @mdb c) args)))

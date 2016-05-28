@@ -1,35 +1,13 @@
 (ns halti-server.api.loadbalancers.extra
   (:require [halti-server.utils :refer [json-request uuid]]
-            [halti-server.api.loadbalancers.db :as db :refer [find-loadbalancers]]
-            [halti-server.api.instances.db :refer [find-instances]]
-            [halti-server.api.services.db :refer [find-services]]
+            [halti-server.api.loadbalancers.db :as db :refer [find-enabled-loadbalancers]]
+            [halti-server.api.instances.db :refer [find-healthy-hosts]]
+            [halti-server.api.services.db :refer [find-enabled-services]]
+            [halti-server.helpers.services :refer [ports-by-services]]
             [clj-time.core :as t]
             [halti-server.events :as events]
             [halti-server.utils :refer [deadline]]))
 
-
-
-(defn- hosts->containers [host]
-  (map #(assoc % :host-instance-id (:instance_id host)) (:containers host)))
-
-(defn- decorated-port-f [base]
-  (fn port->beautiful-port [port]
-    (merge base
-      {:address (:IP port)
-       :port (:PublicPort port)
-       :source (:PrivatePort port)})))
-
-(defn- container->service-port-pairs [container]
-  (let [ports (:Ports container)
-        service-id (subs (first (:Names container)) 1)
-        instance-id (:host-instance-id container)
-        port->beautiful-port (decorated-port-f {:service_id service-id
-                                                :instance_id instance-id})] ;})]
-    (map port->beautiful-port ports)))
-
-
-(defn- service-port-pairs->grouped-addresses [service-port-pairs]
-  (group-by :service_id service-port-pairs))
 
 
 (defn- remove-service-id+source [port]
@@ -47,12 +25,10 @@
     (merge loadbalancer {:backends selected-ports})))
 
 (defn- loadbalancer-configuration-data []
-  (let [enabled-loadbalancers (find-loadbalancers {:enabled true})
-        healthy-hosts (find-instances {:last_heartbeat {"$gt" (deadline)}})
-        ports-by-services (service-port-pairs->grouped-addresses
-                            (mapcat container->service-port-pairs
-                              (mapcat hosts->containers healthy-hosts)))
-        enabled-services (find-services {:enabled true})
+  (let [enabled-loadbalancers (find-enabled-loadbalancers)
+        healthy-hosts (find-healthy-hosts)
+        ports-by-services (ports-by-services healthy-hosts)
+        enabled-services (find-enabled-services)
         loadbalancer+backends (partial ports+loadbalancer->loadbalancer-config ports-by-services)]
     (mapv loadbalancer+backends enabled-loadbalancers)))
 

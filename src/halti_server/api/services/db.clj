@@ -6,13 +6,16 @@
 (def c (:services collection-names))
 
 (defn insert-service [& args]
-  (apply (partial mc/insert-and-return @mdb c) args))
+  (dissoc (apply (partial mc/insert-and-return @mdb c) args) :_id))
 
 (defn find-service [& args]
-  (apply (partial mc/find-one-as-map @mdb c) args))
+  (dissoc (apply (partial mc/find-one-as-map @mdb c) args) :_id))
 
 (defn find-services [& args]
-  (apply (partial mc/find-maps @mdb c) args))
+  (pmap #(dissoc % :_id) (apply (partial mc/find-maps @mdb c) args)))
+
+(defn find-enabled-services []
+  (find-services {:enabled true}))
 
 (defn update-service [& args]
   (updated-existing? (apply (partial mc/update @mdb c) args)))

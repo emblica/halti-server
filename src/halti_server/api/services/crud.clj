@@ -1,6 +1,8 @@
 (ns halti-server.api.services.crud
   (:require [halti-server.utils :refer [json-request uuid]]
+            [halti-server.helpers.services :refer [ports-by-services]]
             [halti-server.api.services.db :as db :refer [find-services find-service insert-service]]
+            [halti-server.api.instances.db :refer [find-healthy-hosts]]
             [clj-time.core :as t]
             [schema.core :as s]
             [halti-server.events :as events]
@@ -73,4 +75,8 @@
     (json-request 400 {:ack false :error "Service not found or remove not acknowledged"})))
 
 (defn single-service [service-id]
-  (json-request 200 {:service (find-service {:service_id service-id})}))
+  (let [service (find-service {:service_id service-id})
+        ports-by-services (ports-by-services (find-healthy-hosts))
+        service-ports (pmap #(dissoc % :service_id) (get ports-by-services service-id))
+        service-with-ports (assoc service :running_on service-ports)]
+    (json-request 200 {:service service-with-ports})))
