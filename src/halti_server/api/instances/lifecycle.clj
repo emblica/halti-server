@@ -40,7 +40,7 @@
 
 (defn services-to-run [instance-id]
   (let [instance (find-instance {:instance_id instance-id})
-        service-ids (get-in instance [:config :containers])]
+        service-ids (or (get-in instance [:config :containers]) [])]
     (find-services {:service_id {"$in" service-ids}})))
 
 
