@@ -65,5 +65,12 @@
   (let [services (find-services {})]
     (json-request 200 {:services services})))
 
+(defn remove-service [service-id]
+  (if-let [removed? (db/remove-service {:service_id service-id})]
+    (do
+      (events/updated!)
+      (json-request 202 {:ack true}))
+    (json-request 400 {:ack false :error "Service not found or remove not acknowledged"})))
+
 (defn single-service [service-id]
   (json-request 200 {:service (find-service {:service_id service-id})}))
