@@ -7,6 +7,11 @@
             [halti-server.config]))
 
 
+(def Port
+  "Specification for a port"
+  {:port s/Int
+   :protocol (s/enum "tcp" "udp")})
+
 
 (def Service
   "A schema for a Service"
@@ -20,16 +25,26 @@
    :image s/Str
    (s/optional-key :command) s/Str
    (s/optional-key :_id) s/Any
-   :ports [s/Int]
+   :ports [Port]
    :environment [{:key s/Str :value s/Str}]})
 
 
 (defn new-service []
   {:service_id (uuid)})
 
+(defn port->complete-port [port]
+  (if (number? port)
+    {:port port :protocol "tcp"}
+    (merge {:protocol "tcp"} port)))
+
+(defn ports->complete-ports [ports]
+  (map port->complete-port ports))
+
 (defn create-service [req]
   (let [new-service-base (new-service)
-        service (s/validate Service (merge new-service-base (:body req)))
+        raw-service (merge new-service-base (:body req))
+        service-with-complete-ports (update raw-service :ports ports->complete-ports)
+        service (s/validate Service service-with-complete-ports)
         inserted-service (insert-service service)]
     (events/updated!)
     (json-request 201 {:service inserted-service})))
@@ -39,10 +54,12 @@
   (let [service-id (get-in req [:params :service-id])
         body (:body req)
         service (find-service {:service_id service-id})
-        updated-service-data (s/validate Service (merge service body))
+        raw-service (merge service body)
+        service-with-complete-ports (update raw-service :ports ports->complete-ports)
+        updated-service-data (s/validate Service service-with-complete-ports)
         updated-service (db/update-service {:service_id service-id} updated-service-data)]
     (events/updated!)
-    (json-request 200 {:service updated-service-data})))
+    (json-request 202 {:service updated-service-data})))
 
 (defn list-services [req]
   (let [services (find-services {})]
