@@ -12,6 +12,7 @@
 (def Port
   "Specification for a port"
   {:port s/Int
+   (s/optional-key :source) s/Int
    :protocol (s/enum "tcp" "udp")})
 
 
