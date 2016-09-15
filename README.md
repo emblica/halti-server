@@ -1,6 +1,7 @@
 # halti-server
 
-FIXME: description
+Halti is container orchestration service built by simplicity and high availability in mind.
+
 
 ## Build
 
