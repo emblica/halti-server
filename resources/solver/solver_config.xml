@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<solver>
+  <!--<environmentMode>FAST_ASSERT</environmentMode>-->
+  <solutionClass>emblica.halti.domain.ServiceDistribution</solutionClass>
+  <entityClass>emblica.halti.domain.ProcessAssignment</entityClass>
+
+  <scoreDirectorFactory>
+    <scoreDefinitionType>HARD_SOFT_LONG</scoreDefinitionType>
+    <incrementalScoreCalculatorClass>emblica.halti.solver.score.ScoreCalculator</incrementalScoreCalculatorClass>
+    <!-- <scoreDrl>solver/rules.drl</scoreDrl> -->
+  </scoreDirectorFactory>
+  <termination>
+    <secondsSpentLimit>30</secondsSpentLimit>
+  </termination>
+
+  <constructionHeuristic>
+    <constructionHeuristicType>FIRST_FIT</constructionHeuristicType>
+  </constructionHeuristic>
+  <localSearch>
+    <termination>
+      <unimprovedMillisecondsSpentLimit>500</unimprovedMillisecondsSpentLimit>
+    </termination>
+    <unionMoveSelector>
+      <changeMoveSelector/>
+      <swapMoveSelector/>
+    </unionMoveSelector>
+    <acceptor>
+      <entityTabuSize>7</entityTabuSize>
+      <!--<lateAcceptanceSize>2000</lateAcceptanceSize>-->
+    </acceptor>
+    <forager>
+      <acceptedCountLimit>2000</acceptedCountLimit>
+      <!--<acceptedCountLimit>500</acceptedCountLimit>-->
+    </forager>
+  </localSearch>
+</solver>
