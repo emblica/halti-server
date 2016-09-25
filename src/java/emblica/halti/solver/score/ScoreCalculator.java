@@ -49,7 +49,7 @@ public class ScoreCalculator
 
     protected final transient Logger logger = LoggerFactory.getLogger(getClass());
 
-    private ServiceDistribution machineReassignment;
+    private ServiceDistribution distribution;
     private GlobalPenaltyInfo globalPenaltyInfo;
 
     private Map<Service, ServiceScorePart> serviceScorePartMap;
@@ -60,12 +60,12 @@ public class ScoreCalculator
     private long hardScore;
     private long softScore;
 
-    public void resetWorkingSolution(ServiceDistribution machineReassignment) {
-        this.machineReassignment = machineReassignment;
+    public void resetWorkingSolution(ServiceDistribution distribution) {
+        this.distribution = distribution;
         hardScore = 0L;
         softScore = 0L;
-        globalPenaltyInfo = machineReassignment.getGlobalPenaltyInfo();
-        List<Service> serviceList = machineReassignment.getServiceList();
+        globalPenaltyInfo = distribution.getGlobalPenaltyInfo();
+        List<Service> serviceList = distribution.getServiceList();
         serviceScorePartMap = new HashMap<Service, ServiceScorePart>(serviceList.size());
         for (Service service : serviceList) {
             serviceScorePartMap.put(service, new ServiceScorePart(service));
@@ -73,18 +73,18 @@ public class ScoreCalculator
         movedProcessCountToServiceCount = new HashMap<Integer, Integer>(serviceList.size());
         movedProcessCountToServiceCount.put(0, serviceList.size());
         serviceMoveCost = 0;
-        List<Machine> machineList = machineReassignment.getMachineList();
+        List<Machine> machineList = distribution.getMachineList();
         machineScorePartMap = new HashMap<Machine, MachineScorePart>(machineList.size());
         for (Machine machine : machineList) {
             machineScorePartMap.put(machine, new MachineScorePart(machine));
         }
-        for (ProcessAssignment processAssignment : machineReassignment.getProcessAssignmentList()) {
+        for (ProcessAssignment processAssignment : distribution.getProcessAssignmentList()) {
             Machine originalMachine = processAssignment.getOriginalMachine();
             if (originalMachine != null) {
                 machineScorePartMap.get(originalMachine).initOriginalProcessAssignment(processAssignment);
             }
         }
-        for (ProcessAssignment processAssignment : machineReassignment.getProcessAssignmentList()) {
+        for (ProcessAssignment processAssignment : distribution.getProcessAssignmentList()) {
             insert(processAssignment);
         }
     }
@@ -149,9 +149,9 @@ public class ScoreCalculator
 
         private ServiceScorePart(Service service) {
             this.service = service;
-            locationBag = new HashMap<Location, Integer>(machineReassignment.getLocationList().size());
+            locationBag = new HashMap<Location, Integer>(distribution.getLocationList().size());
             hardScore -= service.getLocationSpread();
-            List<Neighborhood> neighborhoodList = machineReassignment.getNeighborhoodList();
+            List<Neighborhood> neighborhoodList = distribution.getNeighborhoodList();
             neighborhoodBag = new HashMap<Neighborhood, Integer>(neighborhoodList.size());
             for (Neighborhood neighborhood : neighborhoodList) {
                 neighborhoodBag.put(neighborhood, 0);
@@ -174,6 +174,14 @@ public class ScoreCalculator
             } else {
                 locationBag.put(location, locationProcessCount + 1);
             }
+            // Capability constraints
+            //int satisfactionPercent = processAssignment.capabilitiesSatisfied();
+            // if (satisfactionPercent < 100){
+            //   hardScore -= 9000;
+            // } else {
+            //   hardScore += 10;
+            // }
+            hardScore += processAssignment.capabilitiesSatisfied();
             // Dependency constraints
             Neighborhood neighborhood = processAssignment.getNeighborhood();
             int neighborhoodProcessCount = neighborhoodBag.get(neighborhood) + 1;
@@ -224,6 +232,10 @@ public class ScoreCalculator
             } else {
                 locationBag.put(location, locationProcessCount - 1);
             }
+
+            // Capability constraints
+            hardScore -= processAssignment.capabilitiesSatisfied();
+
             // Dependency constraints
             Neighborhood neighborhood = processAssignment.getNeighborhood();
             int neighborhoodProcessCount = neighborhoodBag.get(neighborhood) - 1;
@@ -341,7 +353,7 @@ public class ScoreCalculator
         }
 
         private void doBalancePenaltyCosts() {
-            for (BalancePenalty balancePenalty : machineReassignment.getBalancePenaltyList()) {
+            for (BalancePenalty balancePenalty : distribution.getBalancePenaltyList()) {
                 long originAvailable = machineCapacityScorePartList.get(balancePenalty.getOriginResource().getIndex())
                         .getBalanceAvailable();
                 long targetAvailable = machineCapacityScorePartList.get(balancePenalty.getTargetResource().getIndex())
@@ -357,7 +369,7 @@ public class ScoreCalculator
         }
 
         private void undoBalancePenaltyCosts() {
-            for (BalancePenalty balancePenalty : machineReassignment.getBalancePenaltyList()) {
+            for (BalancePenalty balancePenalty : distribution.getBalancePenaltyList()) {
                 long originAvailable = machineCapacityScorePartList.get(balancePenalty.getOriginResource().getIndex())
                         .getBalanceAvailable();
                 long targetAvailable = machineCapacityScorePartList.get(balancePenalty.getTargetResource().getIndex())
@@ -486,7 +498,7 @@ public class ScoreCalculator
                                     * machineCapacityScorePart.machineCapacity.getResource().getLoadCostWeight());
                 }
             }
-            for (BalancePenalty balancePenalty : machineReassignment.getBalancePenaltyList()) {
+            for (BalancePenalty balancePenalty : distribution.getBalancePenaltyList()) {
                 long originAvailable = machineScorePart.machineCapacityScorePartList
                         .get(balancePenalty.getOriginResource().getIndex()).getBalanceAvailable();
                 long targetAvailable = machineScorePart.machineCapacityScorePartList
@@ -509,7 +521,7 @@ public class ScoreCalculator
 
             }
         }
-        for (ProcessAssignment processAssignment : machineReassignment.getProcessAssignmentList()) {
+        for (ProcessAssignment processAssignment : distribution.getProcessAssignmentList()) {
             for (Service toDependencyService : processAssignment.getService().getToDependencyServiceList()) {
                 int toDependencyNeighborhoodProcessCount = serviceScorePartMap.get(toDependencyService)
                         .neighborhoodBag.get(processAssignment.getNeighborhood());

@@ -1,14 +1,15 @@
 (ns halti-server.routes
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
-            [halti-server.api.routes :refer [api-router]]))
+            [halti-server.api.routes :refer [api-router]]
+            [halti-server.events :as events]))
 
 
 
 (defn hello [req]
   {:status  200
    :headers {"Content-Type" "text/html"}
-   :body    "hello HTTP!"})
+   :body    "HALTI, FOR YOUR CONTAINERS"})
 
 
 (defroutes main-router

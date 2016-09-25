@@ -1,20 +1,18 @@
-(ns halti-server.solver)
+(ns halti-server.solver
+  (:import (emblica.halti.domain ServiceDistribution
+                                 GlobalPenaltyInfo
+                                 Resource
+                                 Neighborhood
+                                 Location
+                                 Machine
+                                 MachineCapacity
+                                 Service
+                                 ProcessRequirement
+                                 ProcessAssignment)
+           (emblica.halti.solver HaltiSolver)))
 
 
-(import emblica.halti.solver.HaltiSolver)
-(import emblica.halti.domain.ServiceDistribution)
-(import emblica.halti.domain.GlobalPenaltyInfo)
-(import emblica.halti.domain.Resource)
-(import emblica.halti.domain.Neighborhood)
-(import emblica.halti.domain.Location)
-(import emblica.halti.domain.Machine)
-(import emblica.halti.domain.MachineCapacity)
-(import emblica.halti.domain.Service)
-(import emblica.halti.domain.ProcessRequirement)
-(import emblica.halti.domain.ProcessAssignment)
-
-
-(def global-penalty (doto (new GlobalPenaltyInfo)
+(def GLOBAL-PENALTY (doto (new GlobalPenaltyInfo)
                         (.setProcessMoveCostWeight 10)
                         (.setServiceMoveCostWeight 10)
                         (.setMachineMoveCostWeight 10)))
@@ -23,161 +21,176 @@
 (def RESOURCE-TYPES {:cpu 0
                      :memory 1})
 
-(def cpu-resource (doto (new Resource)
+(def CPU-RESOURCE (doto (new Resource)
                     (.setIndex (:cpu RESOURCE-TYPES))
                     (.setTransientlyConsumed false)
                     (.setLoadCostWeight 1.0)))
 
-(def memory-resource (doto (new Resource)
+(def MEMORY-RESOURCE (doto (new Resource)
                       (.setIndex (:memory RESOURCE-TYPES))
                       (.setTransientlyConsumed false)
                       (.setLoadCostWeight 1.0)))
 
-(def resources [cpu-resource memory-resource])
+(def RESOURCES [CPU-RESOURCE MEMORY-RESOURCE])
 
 
-(def default-neighborhood (new Neighborhood))
+(defn location->location-object [identifier]
+   (doto (new Location)
+     (.setIdentifier identifier)))
 
-(def neighborhood [default-neighborhood])
+(defn neighborhood->neighborhood-object [identifier]
+   (doto (new Neighborhood)
+     (.setIdentifier identifier)))
 
-(def default-location (new Location))
+; CONSTANTS
+(def MEMORY-SAFE-MARGIN 0.95) ; 95%
+(def CPU-OVERPROVISIONING-FACTOR 5) ; we can overprovision 5 times
+(def CPU-SAFE-MARGIN 1.0) ; 100%
+(def DEFAULT-LOCATION (location->location-object "default"))
+(def DEFAULT-NEIGHBORHOOD (neighborhood->neighborhood-object "default"))
 
-(def locations [default-location])
+(defn memory->memory-capacity [memory]
+  (let [memory-integer (int memory)
+        safe-zone (int (Math/floor (* memory MEMORY-SAFE-MARGIN)))]
+    (doto (new MachineCapacity)
+      (.setResource MEMORY-RESOURCE)
+      (.setMaximumCapacity memory-integer)
+      (.setSafetyCapacity safe-zone))))
 
-(def memory-2gb (doto (new MachineCapacity)
-                    (.setResource memory-resource)
-                    (.setMaximumCapacity 2048)
-                    (.setSafetyCapacity 2000)))
-
-
-(def cores-2 (doto (new MachineCapacity)
-                (.setResource cpu-resource)
-                (.setMaximumCapacity 2)
-                (.setSafetyCapacity 2)))
-
-
-(def upcloud-20 [memory-2gb cores-2])
-
-
-(def node1 (doto (new Machine)
-              (.setName "node1")
-              (.setNeighborhood default-neighborhood)
-              (.setLocation default-location)
-              (.setMachineCapacityList upcloud-20)))
-
-(def node2 (doto (new Machine)
-              (.setName "node2")
-              (.setNeighborhood default-neighborhood)
-              (.setLocation default-location)
-              (.setMachineCapacityList upcloud-20)))
-
-(def node3 (doto (new Machine)
-              (.setName "node3")
-              (.setNeighborhood default-neighborhood)
-              (.setLocation default-location)
-              (.setMachineCapacityList upcloud-20)))
+(defn cpu-cores->cpu-capacity [cpu]
+  (let [cpu-cores (* (int cpu) CPU-OVERPROVISIONING-FACTOR 10) ; Multiply by 10
+        safe-zone (int (Math/floor (* cpu-cores CPU-SAFE-MARGIN)))]
+    (doto (new MachineCapacity)
+      (.setResource MEMORY-RESOURCE)
+      (.setMaximumCapacity cpu-cores)
+      (.setSafetyCapacity safe-zone))))
 
 
 
-(def machines [node1 node2 node3])
 
-(def machine-capacitys [cores-2 memory-2gb])
-
-
-(def static-app (doto (new Service)
-                  (.setName "static-app")
-                  (.setLocationSpread 2)
-                  (.setToDependencyServiceList [])
-                  (.setFromDependencyServiceList [])))
-
-(def mysql (doto (new Service)
-              (.setName "mysql")
-              (.setLocationSpread 1)
-              (.setToDependencyServiceList [])
-              (.setFromDependencyServiceList [])))
-
-(def webapp (doto (new Service)
-              (.setName "webapp")
-              (.setLocationSpread 2)
-              (.setToDependencyServiceList [mysql])
-              (.setFromDependencyServiceList [])))
+(defn machine->machine-object [locations neighborhoods machine-data]
+  (let [machine-uuid (:instance-id machine-data)
+        cpu-capacity (cpu-cores->cpu-capacity (:cpu machine-data))
+        memory-capacity (memory->memory-capacity (:memory machine-data))
+        capacitys [cpu-capacity memory-capacity] ; Order is important!
+        capabilities (set (:capabilities machine-data))
+        location (get locations (:location machine-data) DEFAULT-LOCATION)
+        neighborhood (get neighborhoods (:instance-id machine-data) DEFAULT-NEIGHBORHOOD)
+        machine (doto (new Machine)
+                  (.setUUID machine-uuid)
+                  (.setNeighborhood neighborhood) ; Every machine is now in own neighborhood
+                  (.setLocation location)
+                  (.setMachineCapabilities capabilities)
+                  (.setMachineCapacityList capacitys))]
+    {:machine machine
+     :capacitys capacitys}))
 
 
-(def services [static-app mysql webapp])
+(defn memory-requirement [memory]
+  (doto (new ProcessRequirement)
+    (.setResource MEMORY-RESOURCE)
+    (.setUsage (int memory))))
+
+(defn cpu-requirement [cpu]
+  (doto (new ProcessRequirement)
+    (.setResource CPU-RESOURCE)
+    (.setUsage (int cpu))))
+
+(defn service->process [process-id service service-object]
+  (let [memory (memory-requirement (:memory service))
+        cpu (cpu-requirement (:cpu service))]
+    (doto (new emblica.halti.domain.Process)
+        (.setService service-object)
+        (.setMoveCost 5)
+        (.setProcessRequirementList [cpu memory]))))
 
 
-
-(def app-memory (doto (new ProcessRequirement)
-                    (.setResource memory-resource)
-                    (.setUsage 512)))
-
-(def app-cpu (doto (new ProcessRequirement)
-                (.setResource cpu-resource)
-                (.setUsage 1)))
-
-(def app-requirements [app-cpu app-memory])
-
-(def mysql-memory (doto (new ProcessRequirement)
-                    (.setResource memory-resource)
-                    (.setUsage 128)))
-
-(def mysql-cpu (doto (new ProcessRequirement)
-                    (.setResource cpu-resource)
-                    (.setUsage 1)))
-
-(def mysql-requirements [mysql-cpu mysql-memory])
-
-(def mysql-process (doto (new emblica.halti.domain.Process)
-                    (.setService mysql)
-                    (.setMoveCost 5)
-                    (.setProcessRequirementList mysql-requirements)))
-
-(def staticapp-process (doto (new emblica.halti.domain.Process)
-                        (.setService static-app)
-                        (.setMoveCost 1)
-                        (.setProcessRequirementList app-requirements)))
-
-(def webapp-process (doto (new emblica.halti.domain.Process)
-                        (.setService webapp)
-                        (.setMoveCost 1)
-                        (.setProcessRequirementList app-requirements)))
+(defn service->service-and-processes [service]
+  (let [capabilities (or (:capabilities service) [])
+        service-object (doto (new Service)
+                         (.setName (:service-id service))
+                         (.setLocationSpread (:instances service))
+                         (.setNeededCapabilityList capabilities)
+                         (.setToDependencyServiceList [])
+                         (.setFromDependencyServiceList []))
+        process-ids (range (:instances service))
+        processes (map service->process process-ids (repeat service) (repeat service-object))]
+    {:service service-object
+     :processes processes}))
 
 
 
-(def processes [mysql-process staticapp-process webapp-process webapp-process])
-
-(defn assign-first [process]
+(defn assign-machine-> [machine process]
   (doto (new ProcessAssignment)
     (.setProcess process)
-    (.setOriginalMachine node1)))
+    (.setOriginalMachine machine)))
+
+
+(defn ->cloud-state [all-neighborhoods all-locations machines services]
+  (let [machine-list (map :machine machines)
+        processes (mapcat :processes services)
+        first-machine (first machine-list)
+        assign-to-first (partial assign-machine-> first-machine)]
+    (doto (new ServiceDistribution)
+         (.setGlobalPenaltyInfo GLOBAL-PENALTY)
+         (.setResourceList RESOURCES)
+         (.setNeighborhoodList all-neighborhoods)
+         (.setLocationList all-locations)
+         (.setMachineList machine-list)
+         (.setMachineCapacityList (mapcat :capacitys machines))
+         (.setServiceList (map :service services))
+         (.setProcessList processes)
+         (.setBalancePenaltyList [])
+         (.setProcessAssignmentList (map assign-to-first processes)))))
+
+(defn- neighborhood-map [neighborhood]
+ {neighborhood (neighborhood->neighborhood-object neighborhood)})
+
+(defn machines->neighborhoods [machines]
+  (let [neighborhood-names (set (map :instance-id machines))
+        neighborhoods (map neighborhood-map neighborhood-names)]
+    (apply merge neighborhoods)))
+
+(defn- location-map [location]
+  {location (location->location-object location)})
+
+(defn machines->locations [machines]
+  (let [location-names ["TEST"] ; TODO: real implementation
+        locations (map location-map location-names)]
+    (apply merge locations)))
+
+
+(def solver (HaltiSolver/createSolver "solver/solver_config.xml"))
+
+(defn assignment->tuple [assignment]
+  {:machine (.getUUID (.getMachine assignment))
+   :service (.getName (.getService assignment))})
+
+
+(defn mapmval [f m]
+ (reduce (fn [nm [k v]] (assoc nm k (f v))) {} m))
 
 
 
-(def process-assignments (map assign-first processes))
+(def by-machine (comp (fn [group] (map #(hash-map :instance-id %1 :containers %2) (keys group) (vals group)))
+                      (partial mapmval (partial mapv :service))
+                      (partial group-by :machine)))
 
 
-(def cloud-state (doto (new ServiceDistribution)
-                    (.setGlobalPenaltyInfo global-penalty)
-                    (.setResourceList resources)
-                    (.setNeighborhoodList neighborhood)
-                    (.setLocationList locations)
-                    (.setMachineList machines)
-                    (.setMachineCapacityList machine-capacitys)
-                    (.setServiceList services)
-                    (.setProcessList processes)
-                    (.setBalancePenaltyList [])
-                    (.setProcessAssignmentList process-assignments)))
-
-
-
-; (def t (doto (HaltiSolver/createSolver "solver/solver_config.xml")
-;           (.solve cloud-state)))
-;
-; (time (map #(println %) (.getProcessAssignmentList (.getBestSolution t))))
-;
-; (map #(println %)) (.getProcessAssignmentList cloud-state)
-;
-;
-; (.getScore cloud-state)
-; (.getScore (.getBestSolution t))
-;
+(defn distribute-services [machines services]
+  (let [neighborhoods (machines->neighborhoods machines)
+        locations (machines->locations machines)
+        machine-objects (map (partial machine->machine-object locations neighborhoods) machines)
+        service-objects (map service->service-and-processes services)
+        all-neighborhoods (conj (vals neighborhoods) DEFAULT-NEIGHBORHOOD)
+        all-locations (conj (vals locations) DEFAULT-LOCATION)
+        cloud-state (->cloud-state
+                      all-neighborhoods
+                      all-locations
+                      machine-objects
+                      service-objects)
+        assignments (-> solver
+                      (.solve cloud-state)
+                      (.getProcessAssignmentList))
+        assignment-tuples (map assignment->tuple assignments)]
+    (by-machine assignment-tuples)))

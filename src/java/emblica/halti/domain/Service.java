@@ -19,6 +19,7 @@
 package emblica.halti.domain;
 
 import java.util.List;
+import java.util.ArrayList;
 
 
 public class Service {
@@ -27,6 +28,7 @@ public class Service {
     private String name;
     private List<Service> toDependencyServiceList;
     private List<Service> fromDependencyServiceList;
+    private List<String> neededCapabilityList = new ArrayList<>();
 
     private int locationSpread;
 
@@ -38,6 +40,13 @@ public class Service {
         this.name = name;
     }
 
+    public List<String> getNeededCapabilityList() {
+        return neededCapabilityList;
+    }
+
+    public void setNeededCapabilityList(List<String> neededCapabilityList) {
+        this.neededCapabilityList = neededCapabilityList;
+    }
     public List<Service> getToDependencyServiceList() {
         return toDependencyServiceList;
     }

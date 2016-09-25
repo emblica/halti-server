@@ -21,25 +21,29 @@ package emblica.halti.domain;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.HashSet;
 
 
 public class Machine {
 
-    private String name;
+    private String uuid;
     private Neighborhood neighborhood;
     private Location location;
 
     // Order is equal to resourceList so resource.getIndex() can be used
     private List<MachineCapacity> machineCapacityList;
+    private Set<String> machineCapabilities = new HashSet<>();
     private Map<Machine, Integer> machineMoveCostMap; // key is toMachine
 
-    public String getName() {
-        return name;
+    public String getUUID() {
+        return uuid;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setUUID(String uuid) {
+        this.uuid = uuid;
     }
+
     public Neighborhood getNeighborhood() {
         return neighborhood;
     }
@@ -62,6 +66,18 @@ public class Machine {
 
     public void setMachineCapacityList(List<MachineCapacity> machineCapacityList) {
         this.machineCapacityList = machineCapacityList;
+    }
+
+    public Set<String> getMachineCapabilities() {
+        return machineCapabilities;
+    }
+
+    public void setMachineCapabilities(Set<String> machineCapabilities) {
+        this.machineCapabilities = machineCapabilities;
+    }
+
+    public boolean hasCapability(String capability) {
+        return this.machineCapabilities.contains(capability);
     }
 
     public MachineCapacity getMachineCapacity(Resource resource) {

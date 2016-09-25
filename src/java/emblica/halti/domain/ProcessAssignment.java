@@ -86,13 +86,26 @@ public class ProcessAssignment {
         return machine == null ? null : machine.getLocation();
     }
 
+    public int capabilitiesSatisfied() {
+      int total = 1;
+      int satisfied = 1;
+      if (machine == null) return 0;
+      for (String capability : process.getService().getNeededCapabilityList()) {
+        total++;
+        if (machine.hasCapability(capability)) {
+          satisfied++;
+        }
+      }
+      return ((satisfied/total)*100);
+    }
+
     public long getUsage(Resource resource) {
         return process.getUsage(resource);
     }
 
     @Override
     public String toString() {
-        return (machine == null || originalMachine == null) ? process.getService().getName() : process.getService().getName() + machine.getName();
+        return (machine == null || originalMachine == null) ? process.getService().getName() : process.getService().getName() + machine.getUUID();
     }
 
 }
