@@ -6,6 +6,7 @@
             [halti-server.events :as events]
             [taoensso.timbre :as timbre :refer [info error warn debug]]
             [halti-server.scheduler]
+            [halti-server.solver]
             [halti-server.utils :refer [deadline]]))
 
 (def MB (* 1024 1024))
@@ -54,17 +55,29 @@
 (defn save-host-containers! [host]
   (let [instance-id (:instance-id host)
         containers (:containers host)]
+    ;(info "CONTAINERS FOR MACHINE" instance-id containers)))
     (update-host {:instance_id instance-id} {"$set" {:config {:containers containers}}})))
+
+(defn save-container-error! [container]
+  (warn "Container didn't fit into current cluster" container))
+
 
 (defn save-container-distribution! [hosts]
   (doall (map save-host-containers! hosts)))
+
+
+(defn save-container-distribution-errors! [containers]
+  (doall (map save-container-error! containers)))
+
+
 
 (defn schedule! [& args]
   (info "Scheduling....")
   (let [hosts (healthy-hosts)
         services (enabled-services)
-        distribution (halti-server.scheduler/distribute-services hosts services)]
-    (save-container-distribution! (:hosts distribution))))
+        distribution (halti-server.solver/distribute-services hosts services)]
+    (save-container-distribution! distribution)))
+    ;(save-container-distribution-errors! (:left-over-containers distribution))))
 
 (defn start-scheduler! []
   (info "Scheduler started!")

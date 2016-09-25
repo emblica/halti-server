@@ -3,6 +3,8 @@
   :url "http://example.com/FIXME"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
+  :source-paths      ["src/clojure"]
+  :java-source-paths ["src/java"]
   :dependencies [[org.clojure/clojure "1.8.0"]
                  [http-kit "2.1.18"]
                  [compojure "1.5.0"]
@@ -13,6 +15,7 @@
                  [ring.middleware.logger "0.5.0"]
                  [org.clojure/data.json "0.2.6"]
                  [clj-time "0.11.0"]
+                 [org.optaplanner/optaplanner-core "6.4.0.Final"]
                  [com.novemberain/monger "3.0.2"]
                  [cheshire "5.5.0"]
                  [ring/ring-json "0.4.0"]
