@@ -3,6 +3,9 @@
 Halti is container orchestration service built by simplicity and high availability in mind.
 
 
+
+![Halti architecture](doc/halti_architecture.png)
+
 ## Build
 
 ```
