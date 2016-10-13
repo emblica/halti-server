@@ -21,6 +21,14 @@
    :force_https s/Bool
    :ports {:http s/Bool :https s/Bool}})
 
+(def editable-fields [:name
+                      :enabled
+                      :hostname
+                      :service_id
+                      :source_port
+                      :network
+                      :force_https
+                      :ports])
 
 
 (defn new-loadbalancer []
@@ -28,16 +36,18 @@
 
 (defn create-loadbalancer [req]
   (let [new-loadbalancer-base (new-loadbalancer)
-        loadbalancer (s/validate Loadbalancer (merge new-loadbalancer-base (:body req)))
+        lb-params (select-keys (:body req) editable-fields)
+        loadbalancer (s/validate Loadbalancer (merge new-loadbalancer-base lb-params))
         inserted-loadbalancer (insert-loadbalancer loadbalancer)]
     (json-request 201 {:loadbalancer inserted-loadbalancer})))
 
 
+
 (defn update-loadbalancer [req]
   (let [loadbalancer-id (get-in req [:params :loadbalancer-id])
-        body (:body req)
+        changes (select-keys (:body req) editable-fields)
         loadbalancer (find-loadbalancer {:loadbalancer_id loadbalancer-id})
-        updated-loadbalancer-data (s/validate Loadbalancer (merge loadbalancer body))
+        updated-loadbalancer-data (s/validate Loadbalancer (merge loadbalancer changes))
         updated-loadbalancer (db/update-loadbalancer {:loadbalancer_id loadbalancer-id} updated-loadbalancer-data)]
     (json-request 200 {:loadbalancer updated-loadbalancer-data})))
 
