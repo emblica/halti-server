@@ -1,4 +1,4 @@
-(defproject halti-server "1.0.0"
+(defproject halti-server "1.0.1"
   :description "Halti server is container lightweight container orchestration platform"
   :url "https://github.com/emblica/halti-server"
   :source-paths      ["src/clojure"]
