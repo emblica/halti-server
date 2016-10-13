@@ -15,3 +15,5 @@ Halti has two essential components. Master-nodes and Worker-nodes.
 - Provide API for the cluster
 - Schedule and optimize services between healthy worker nodes
 - Keep only one master scheduler as active in same time
+
+![Halti architecture](halti_architecture.png)
