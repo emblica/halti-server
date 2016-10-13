@@ -32,6 +32,17 @@
    :environment [{:key s/Str :value s/Str}]})
 
 
+(def editable-fields [:name
+                      :cpu
+                      :enabled
+                      :memory
+                      :instances
+                      :version
+                      :image
+                      :command
+                      :ports
+                      :environment])
+
 (defn new-service []
   {:service_id (uuid)})
 
@@ -45,7 +56,8 @@
 
 (defn create-service [req]
   (let [new-service-base (new-service)
-        raw-service (merge new-service-base (:body req))
+        service-params (select-keys (:body req) editable-fields)
+        raw-service (merge new-service-base service-params)
         service-with-complete-ports (update raw-service :ports ports->complete-ports)
         service (s/validate Service service-with-complete-ports)
         inserted-service (insert-service service)]
@@ -55,9 +67,9 @@
 
 (defn update-service [req]
   (let [service-id (get-in req [:params :service-id])
-        body (:body req)
+        service-params (select-keys (:body req) editable-fields)
         service (find-service {:service_id service-id})
-        raw-service (merge service body)
+        raw-service (merge service service-params)
         service-with-complete-ports (update raw-service :ports ports->complete-ports)
         updated-service-data (s/validate Service service-with-complete-ports)
         updated-service (db/update-service {:service_id service-id} updated-service-data)]
