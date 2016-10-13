@@ -7,7 +7,7 @@ Halti is container orchestration service built by simplicity and high availabili
 
 ```
 
-docker build -t emb/halti-server .
+docker build -t emblica/halti-server .
 ```
 
 
@@ -39,10 +39,15 @@ Scheduler tries to work with these limits and optimize the container configurati
 - If there is capability that is needed for service try to put it to machine that provides those capabilities
 
 
+### Missing features
+
+- Scheduler implements locations and neighbourhood but the feature isn't yet enabled.
+- Security and authentication with all connections between cluster
+
 ### Bugs
 
 not known bugs currently
 
 ## License
-
+`See LICENCE`
 Copyright © 2016 Emblica / Teemu Heikkilä

@@ -14,7 +14,7 @@
   (or (System/getenv k) v))
 
 (def PORT (Integer/parseInt (env "PORT" "4040")))
-(def MONGO_URI (env "MONGO_URI" "mongodb://192.168.99.100:32768/halti"))
+(def MONGO_URI (env "MONGO_URI" "mongodb://localhost/halti"))
 
 (def in-dev? (= "no" (env "PRODUCTION" "no")))
 

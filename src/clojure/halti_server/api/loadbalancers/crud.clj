@@ -16,6 +16,7 @@
    :hostname s/Str
    :service_id s/Str
    :source_port s/Int
+   (s/optional-key :network) s/Str
    (s/optional-key :_id) s/Any
    :force_https s/Bool
    :ports {:http s/Bool :https s/Bool}})

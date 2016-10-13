@@ -1,24 +1,22 @@
 # Change Log
-All notable changes to this project will be documented in this file. This change log follows the conventions of [keepachangelog.com](http://keepachangelog.com/).
 
-## [Unreleased][unreleased]
+This project follows semver-versioning.
+
+## 1.0.0
+First open source release. 2016-10-13
+
 ### Changed
-- Add a new arity to `make-widget-async` to provide a different widget shape.
+- No changes with old functionality
 
-## [0.1.1] - 2016-04-09
-### Changed
-- Documentation on how to make the widgets.
 
-### Removed
-- `make-widget-sync` - we're all async, all the time.
+### Added
+- Change Log
+- Semantic versioning
+- Open source release
+- Loadbalancer takes optional network-parameter. Used with some LB-layer implementations.
 
 ### Fixed
-- Fixed widget maker to keep working when daylight savings switches over.
+- No fixes
 
-## 0.1.0 - 2016-04-09
-### Added
-- Files from the new template.
-- Widget maker public API - `make-widget-sync`.
-
-[unreleased]: https://github.com/your-name/halti-server/compare/0.1.1...HEAD
-[0.1.1]: https://github.com/your-name/halti-server/compare/0.1.0...0.1.1
+### Removed
+- No removed features
