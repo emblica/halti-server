@@ -6,7 +6,8 @@
 
 (def collection-names {:instances "instances"
                        :loadbalancers "loadbalancers"
-                       :services "services"})
+                       :services "services"
+                       :instance-events "instance_events"})
 
 (def mdb (atom nil))
 

@@ -5,10 +5,14 @@
             [halti-server.utils :refer [deadline]]))
 
 (def c (:instances collection-names))
+(def e (:instance-events collection-names))
 
 
 (defn insert-instance [& args]
   (dissoc (apply (partial mc/insert-and-return @mdb c) args) :_id))
+
+(defn insert-instance-event [& args]
+  (dissoc (apply (partial mc/insert-and-return @mdb e) args) :_id))
 
 (defn find-instance [& args]
   (dissoc (apply (partial mc/find-one-as-map @mdb c) args) :_id))

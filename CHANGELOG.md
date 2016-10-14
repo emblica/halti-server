@@ -3,6 +3,21 @@
 This project follows semver-versioning.
 
 
+## 0.1.1
+2016-10-14
+
+### Changed
+- No changes with old functionality
+
+### Added
+- Notify-endpoint
+
+### Fixed
+- No fixes
+
+### Removed
+- No removed features
+
 ## 0.1.0
 First open source release. 2016-10-13
 

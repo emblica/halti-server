@@ -1,6 +1,6 @@
 (ns halti-server.api.instances.lifecycle
   (:require [halti-server.utils :refer [json-request uuid]]
-            [halti-server.api.instances.db :refer [insert-instance update-instance find-instance]]
+            [halti-server.api.instances.db :refer [insert-instance update-instance find-instance insert-instance-event]]
             [halti-server.api.services.db :refer [find-services]]
             [halti-server.config :refer [heartbeat-interval]]
             [halti-server.events :as events]
@@ -53,4 +53,20 @@
         status-code (if heartbeated? 200 400)
         result (if heartbeated? {:heartbeat now :alive true :services (services-to-run instance-id)} {:error "heartbeat failed, you might have wrong instance id"})]
     (events/updated!)
+    (json-request status-code result)))
+
+(defn notify [req]
+  "Notify instance state ie. pulling image or errors"
+  (let [instance-id (get-in req [:params :instance-id])
+        now (t/now)
+        event (get-in req [:body :event])
+        event-type (get-in req [:body :event_type])
+        event-meta (get-in req [:body :event_meta])
+        instance-event {:timestamp now
+                        :event event
+                        :event_type event-type
+                        :meta event-meta}
+        inserted-event (insert-instance-event instance-event)
+        status-code 201
+        result {:ack now}]
     (json-request status-code result)))
