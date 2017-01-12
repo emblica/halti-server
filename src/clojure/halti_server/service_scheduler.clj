@@ -26,13 +26,12 @@
   (assoc host :services #{}))
 
 (defn host->basic-info [host]
-  (let [cpu (get-in host [:system :cpus])
-        instance-id (:instance_id host)
-        containers (get-in host [:config :containers])
+  (let [containers (get-in host [:config :containers])
         memory (int (/ (get-in host [:info :MemTotal]) MB))]
-    {:instance-id instance-id
-     :cpu cpu
+    {:instance-id (:instance_id host)
+     :cpu cpu (get-in host [:system :cpus])
      :memory memory
+     :capabilities (:capabilities host)
      :containers []})) ; Replace with real container config when algorithm supports!
 
 (defn healthy-hosts []
@@ -43,6 +42,7 @@
   {:service-id (:service_id service)
    :memory (:memory service)
    :cpu (:cpu service)
+   :requirements (:requirements service)
    :instances (:instances service)})
 
 (defn enabled-services []
