@@ -29,7 +29,7 @@
   (let [containers (get-in host [:config :containers])
         memory (int (/ (get-in host [:info :MemTotal]) MB))]
     {:instance-id (:instance_id host)
-     :cpu cpu (get-in host [:system :cpus])
+     :cpu (get-in host [:system :cpus])
      :memory memory
      :capabilities (:capabilities host)
      :containers []})) ; Replace with real container config when algorithm supports!
