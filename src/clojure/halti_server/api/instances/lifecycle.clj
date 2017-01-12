@@ -26,7 +26,6 @@
   {:instance_id (uuid)
    :created (t/now)
    :containers []
-   :capabilities []
    :last_heartbeat (t/now)})
 
 
