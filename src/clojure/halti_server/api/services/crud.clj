@@ -39,6 +39,7 @@
                       :memory
                       :instances
                       :version
+                      :requirements
                       :image
                       :command
                       :ports
