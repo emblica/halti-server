@@ -3,6 +3,23 @@
 This project follows semver-versioning.
 
 
+## 0.1.2
+2017-01-12
+
+### Changed
+- Scheduler reverted back to original
+- Added capability/requirement satisfaction constraints
+
+### Added
+- capabilities for instances
+- requirements for services
+
+### Fixed
+- No fixes
+
+### Removed
+- Optaplanner removed as the scheduler was reverted
+
 ## 0.1.1
 2016-10-14
 

@@ -27,6 +27,7 @@
    :service_id s/Str
    :image s/Str
    (s/optional-key :command) s/Str
+   (s/optional-key :requirements) [s/Str]
    (s/optional-key :_id) s/Any
    :ports [Port]
    :environment [{:key s/Str :value s/Str}]})

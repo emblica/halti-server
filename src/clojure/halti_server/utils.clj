@@ -18,6 +18,18 @@
 (defn deadline []
   (t/minus (t/now) (t/seconds halti-server.config/obituary-time)))
 
+(defn flip [function]
+  (fn
+    ([] (function))
+    ([x] (function x))
+    ([x y] (function y x))
+    ([x y z] (function z y x))
+    ([a b c d] (function d c b a))
+    ([a b c d & rest]
+     (->> rest
+        (concat [a b c d])
+        reverse
+        (apply function)))))
 
 (extend-type org.joda.time.DateTime
   json/JSONWriter
