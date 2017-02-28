@@ -28,7 +28,7 @@
 
 
 (defn find-allocated-instances [service-id]
-  (find-instances {:config.containers service-id}))
+  (find-instances {:config.containers service-id :last_heartbeat {"$gt" (deadline)}}))
 
 (defn find-healthy-hosts []
   (find-instances {:last_heartbeat {"$gt" (deadline)}}))
