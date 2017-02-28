@@ -2,7 +2,7 @@
   (:require [halti-server.utils :refer [json-request uuid]]
             [halti-server.helpers.services :refer [ports-by-services]]
             [halti-server.api.services.db :as db :refer [find-services find-service insert-service]]
-            [halti-server.api.instances.db :refer [find-healthy-hosts]]
+            [halti-server.api.instances.db :refer [find-healthy-hosts find-allocated-instances]]
             [clj-time.core :as t]
             [schema.core :as s]
             [halti-server.events :as events]
@@ -92,6 +92,8 @@
 (defn single-service [service-id]
   (let [service (find-service {:service_id service-id})
         ports-by-services (ports-by-services (find-healthy-hosts))
+        allocated-instances (map :instance_id (find-allocated-instances service-id))
         service-ports (pmap #(dissoc % :service_id) (get ports-by-services service-id))
-        service-with-ports (assoc service :running_on service-ports)]
+        service-with-ports (assoc service :running_on service-ports)
+        enriched-service (merge {:running_on service-ports :allocated_instances allocated_instances})]
     (json-request 200 {:service service-with-ports})))
