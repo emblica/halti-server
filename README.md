@@ -29,17 +29,18 @@ docker run -d -p 10.4.1.224:4040:4040 --name halti-server --restart=always -e PO
 
 ## Scheduler
 
-Halti scheduler is implemented with Redhats Optaplanner (http://www.optaplanner.org/)
-The implementation is the only part written in Java.
+Halti scheduler is implemented in clojure and can be found from here https://github.com/emblica/halti-server/blob/master/src/clojure/halti_server/scheduler.clj
 
 Scheduler tries to work with these limits and optimize the container configuration:
 
-- For already running containers don't move  them if you don't have to
+**Implemented:**   
 - Try to find best usage of resources
-- Try to put dependent services close to each other (same neighborhood if possible)
-- Try to distribute services in different locations if possible
-- Try to keep single instances of service in different machines
+- Keep same instances of service in different machines
 - If there is capability that is needed for service try to put it to machine that provides those capabilities
+**Not implemented yet:**  
+- For already running containers don't move  them if you don't have to
+- Try to distribute services in different locations if possible
+- Try to put dependent services close to each other (same neighborhood if possible)
 
 
 ### Missing features
@@ -53,4 +54,4 @@ not known bugs currently
 
 ## License
 `See LICENCE`
-Copyright © 2016 Emblica / Teemu Heikkilä
+Copyright © 2016 Emblica
