@@ -13,4 +13,4 @@
  (GET "/:instance-id" [instance-id] (single-instance instance-id))
  (POST "/:instance-id/heartbeat" [] heartbeat)
  (POST "/:instance-id/notify" [] notify)
- (GET "/:instance-id/events" [] latest-events))
+ (GET "/:instance-id/events" [instance-id] (latest-events instance-id)))
