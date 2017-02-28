@@ -95,5 +95,5 @@
         allocated-instances (map :instance_id (find-allocated-instances service-id))
         service-ports (pmap #(dissoc % :service_id) (get ports-by-services service-id))
         service-with-ports (assoc service :running_on service-ports)
-        enriched-service (merge {:running_on service-ports :allocated_instances allocated_instances})]
+        enriched-service (merge {:running_on service-ports :allocated_instances allocated-instances})]
     (json-request 200 {:service service-with-ports})))

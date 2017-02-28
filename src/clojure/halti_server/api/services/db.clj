@@ -1,8 +1,8 @@
 (ns halti-server.api.services.db
   (:require [halti-server.db :refer [mdb collection-names]]
             [monger.collection :as mc]
-            [halti-server.utils :refer [->pretty]]))
-            [monger.result :refer [updated-existing? acknowledged?]]
+            [halti-server.utils :refer [->pretty]]
+            [monger.result :refer [updated-existing? acknowledged?]]))
 
 (def c (:services collection-names))
 
