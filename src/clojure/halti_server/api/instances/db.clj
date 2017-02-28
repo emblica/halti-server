@@ -20,6 +20,15 @@
 (defn find-instances [& args]
   (pmap #(dissoc % :_id) (apply (partial mc/find-maps @mdb c) args)))
 
+(defn find-events [& args]
+  (map ->pretty (apply (partial mc/find-maps @mdb e) args)))
+
+(defn find-latest-events [query]
+  (find-events (merge query {:timestamp {"$gt" (day-ago)}})))
+
+
+(defn find-allocated-instances [service-id]
+  (find-instances {:config.containers service-id}))
 
 (defn find-healthy-hosts []
   (find-instances {:last_heartbeat {"$gt" (deadline)}}))

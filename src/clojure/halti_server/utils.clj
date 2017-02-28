@@ -18,6 +18,14 @@
 (defn deadline []
   (t/minus (t/now) (t/seconds halti-server.config/obituary-time)))
 
+(defn day-ago []
+  (t/minus (t/now) (t/days 1)))
+
+(defn ->pretty [ob]
+  (dissoc ob :_id))
+
+
+
 (defn flip [function]
   (fn
     ([] (function))
