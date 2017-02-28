@@ -1,18 +1,19 @@
 (ns halti-server.api.services.db
   (:require [halti-server.db :refer [mdb collection-names]]
             [monger.collection :as mc]
-            [monger.result :refer [updated-existing? acknowledged?]]))
+            [halti-server.utils :refer [->pretty]]))
+            [monger.result :refer [updated-existing? acknowledged?]]
 
 (def c (:services collection-names))
 
 (defn insert-service [& args]
-  (dissoc (apply (partial mc/insert-and-return @mdb c) args) :_id))
+  (->pretty (apply (partial mc/insert-and-return @mdb c) args)))
 
 (defn find-service [& args]
-  (dissoc (apply (partial mc/find-one-as-map @mdb c) args) :_id))
+  (->pretty (apply (partial mc/find-one-as-map @mdb c) args)))
 
 (defn find-services [& args]
-  (pmap #(dissoc % :_id) (apply (partial mc/find-maps @mdb c) args)))
+  (map ->pretty (apply (partial mc/find-maps @mdb c) args)))
 
 (defn find-enabled-services []
   (find-services {:enabled true}))

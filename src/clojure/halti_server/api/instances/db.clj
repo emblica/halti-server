@@ -2,23 +2,23 @@
   (:require [halti-server.db :refer [mdb collection-names]]
             [monger.collection :as mc]
             [monger.result :refer [updated-existing?]]
-            [halti-server.utils :refer [deadline]]))
+            [halti-server.utils :refer [deadline day-ago ->pretty]]))
 
 (def c (:instances collection-names))
 (def e (:instance-events collection-names))
 
 
 (defn insert-instance [& args]
-  (dissoc (apply (partial mc/insert-and-return @mdb c) args) :_id))
+  (->pretty (apply (partial mc/insert-and-return @mdb c) args)))
 
 (defn insert-instance-event [& args]
-  (dissoc (apply (partial mc/insert-and-return @mdb e) args) :_id))
+  (->pretty (apply (partial mc/insert-and-return @mdb e) args)))
 
 (defn find-instance [& args]
-  (dissoc (apply (partial mc/find-one-as-map @mdb c) args) :_id))
+  (->pretty (apply (partial mc/find-one-as-map @mdb c) args)))
 
 (defn find-instances [& args]
-  (pmap #(dissoc % :_id) (apply (partial mc/find-maps @mdb c) args)))
+  (map ->pretty (apply (partial mc/find-maps @mdb c) args)))
 
 (defn find-events [& args]
   (map ->pretty (apply (partial mc/find-maps @mdb e) args)))
