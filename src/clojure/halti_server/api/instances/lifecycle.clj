@@ -63,6 +63,7 @@
         event-type (get-in req [:body :event_type])
         event-meta (get-in req [:body :event_meta])
         instance-event {:timestamp now
+                        :instance_id instance-id
                         :event event
                         :event_type event-type
                         :meta event-meta}
