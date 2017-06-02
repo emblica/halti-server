@@ -20,6 +20,9 @@
 (defn update-host [& args]
   (updated-existing? (apply (partial mc/update @mdb (:instances collection-names)) args)))
 
+(defn update-scheduler [& args]
+  (updated-existing? (apply (partial mc/update @mdb (:scheduler collection-names)) args)))
+
 
 (defn basic-info+running-services [host]
   "From host.containers get services which are runned in host"
@@ -59,12 +62,17 @@
 (defn save-container-distribution! [hosts]
   (doall (map save-host-containers! hosts)))
 
+(defn save-left-over-containers! [containers]
+  (info "unscheduled" (into [] containers))
+  (update-scheduler {:key "unscheduled-containers"} {"$set" {:containers containers}} {:upsert true}))
+
 (defn schedule! [& args]
   (info "Scheduling....")
   (let [hosts (healthy-hosts)
         services (enabled-services)
         distribution (halti-server.scheduler/distribute-services hosts services)]
-    (save-container-distribution! (:hosts distribution))))
+    (save-container-distribution! (:hosts distribution))
+    (save-left-over-containers! (:left-over-containers distribution))))
 
 (defn start-scheduler! []
   (info "Scheduler started!")

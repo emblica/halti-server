@@ -2,6 +2,7 @@
   (:require [compojure.core :refer :all]
             [compojure.route :as route]
             [halti-server.utils :refer [json-request]]
+            [halti-server.api.state.routes :refer [state-router]]
             [halti-server.api.instances.routes :refer [instances-router]]
             [halti-server.api.services.routes :refer [services-router]]
             [halti-server.api.loadbalancers.routes :refer [loadbalancers-router]]
@@ -17,6 +18,7 @@
   (wrap-json-body
     (routes
       (GET "/" [] api-listing)
+      (context "/state" [] state-router)
       (context "/instances" [] instances-router)
       (context "/loadbalancers" [] loadbalancers-router)
       (context "/services" [] services-router))

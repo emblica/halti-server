@@ -63,15 +63,21 @@
       (cond
         ; Dont assing multiple instances of same application to one host
         (has-already-instance-of-service? host container)
-        #(assign-container-to-host host rest-containers (conj not-suitable-containers container)) ; - sad it was duplicate so lets just continue
+        #(assign-container-to-host host rest-containers (conj not-suitable-containers (assoc container :problem {:reason :duplicate :host host}))) ; - sad it was duplicate so lets just continue
         ; Check that host has needed capabilities
         (not (have-capabilities? host container))
-        #(assign-container-to-host host rest-containers (conj not-suitable-containers container)) ; - sad, no capabilities so lets just continue
+        #(assign-container-to-host host rest-containers (conj not-suitable-containers (assoc container :problem {:reason :missing-capabilities :host host}))) ; - sad, no capabilities so lets just continue
         ; Looks like this is new application for this host
         ; it also looks like have satisfied requirements
-        ; so if it fits to hosts memory we got deal!
-        (or cpu-overprovisioned? memory-overprovisioned?)
-        #(assign-container-to-host host rest-containers (conj not-suitable-containers container)) ; - sad, no space so lets just continue
+        ; so if it fits to hosts memory and cpu we got deal!
+
+        memory-overprovisioned?
+        #(assign-container-to-host host rest-containers (conj not-suitable-containers (assoc container :problem {:reason :not-enough-memory :host host}))) ; - sad, no space so lets just continue
+
+
+        cpu-overprovisioned?
+        #(assign-container-to-host host rest-containers (conj not-suitable-containers (assoc container :problem {:reason :not-enough-cpu :host host}))) ; - sad, no space so lets just continue
+
         ; If good start provisioning
         :else
         (let [new-resources (assoc avail-resources :containers (conj host-containers container-name)) ; It fits! set new resources
@@ -93,8 +99,10 @@
 
 
 (defn distribute-services [hosts services]
-  "Returns map with two keys: hosts and left-over-containers"
-  (trampoline allocate-containers (services->containers services) hosts []))
+  "Returns map with three keys: hosts and left-over-containers with errors"
+  (if (empty? hosts)
+    {:hosts [] :left-over-containers (map (fn [container] (assoc container :problem {:reason :no-healthy-hosts})) (services->containers services))}
+    (trampoline allocate-containers (services->containers services) hosts [])))
 
 
 ;(distribute-services hosts services)
