@@ -27,7 +27,7 @@
    :service_id s/Str
    :image s/Str
    (s/optional-key :command) s/Str
-   (s/optional-key :extra_hosts) {s/Str s/Str}
+   (s/optional-key :extra_hosts) {s/Keyword s/Str}
    (s/optional-key :requirements) [s/Str]
    (s/optional-key :_id) s/Any
    :ports [Port]
