@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Administration and usage - Halti Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Administration and usage";
+    var mkdocs_page_input_path = "administration_and_usage.md";
+    var mkdocs_page_url = "/administration_and_usage/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Halti Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Administration and usage</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#creating-and-managing-services">Creating and managing services</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#structure-of-service-description">Structure of service description</a></li>
+        
+            <li><a class="toctree-l3" href="#updating-service">Updating service</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#creating-and-managing-loadbalancers">Creating and managing loadbalancers</a></li>
+    
+
+    <li class="toctree-l2"><a href="#adding-new-instances-to-cluster">Adding new instances to cluster</a></li>
+    
+
+    <li class="toctree-l2"><a href="#removing-instances-from-cluster">Removing instances from cluster</a></li>
+    
+
+    <li class="toctree-l2"><a href="#problem-solving-and-common-problems">Problem solving and common problems</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#service-doesnt-run-on-any-instance">Service doesn't run on any instance</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../architecture/">Architecture</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../getting_started/">Getting started</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../installation/">Installation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../scheduler/">Scheduler</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">API</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../API/hosts/">Hosts</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../API/loadbalancers/">Loadbalancers</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../API/services/">Services</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Halti Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Administration and usage</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="creating-and-managing-services">Creating and managing services</h1>
+<p>Creating services is explained briefly in <code>Getting started</code> but it works
+by issuing requests to service API endpoints.</p>
+<p>API documentation can be found from <strong>API/services</strong></p>
+<h2 id="structure-of-service-description">Structure of service description</h2>
+<pre><code>{
+    &quot;name&quot;: &quot;hello-world-service&quot;,
+    &quot;cpu&quot;: 0.1,
+    &quot;enabled&quot;: true,
+    &quot;memory&quot;: 128,
+    &quot;instances&quot;: 1,
+    &quot;requirements&quot;: [],
+    &quot;version&quot;: &quot;v1&quot;,
+    &quot;image&quot;: &quot;busybox&quot;,
+    &quot;command&quot;: &quot;httpd -f -vv -p 8080&quot;,
+    &quot;ports&quot;: [
+        8080
+    ],
+    &quot;environment&quot;: []
+}
+</code></pre>
+
+<ul>
+<li><strong>name</strong> is just arbitrary user recognizable name, it's recommended that it doesn't contain whitespaces though   </li>
+<li><strong>cpu</strong> 1 CPU core of the host machine is same as 1 CPU core of halti. This is hard limit for scheduling but in reality the service isn't limited by this factor.</li>
+<li><strong>memory</strong> as MB of ram of the host machine. Also hard limit for scheduling but doesn't limit the actual container at runtime.</li>
+<li><strong>instances</strong> replica count of this service. Same instance is never running two replicas of the same instance in same time.</li>
+<li><strong>requirements</strong> list of strings to describe the requirements for this service such as <code>ssd</code> or <code>intranet</code> or <code>gpu</code>. Service is never scheduled on that kind of instances where some of the requirements are missing.</li>
+<li><strong>version</strong> version of the service. Changing this also forces docker image fetch. Useful when upgrading service.</li>
+<li><strong>image</strong> registry name/path to the used docker image</li>
+<li><strong>command</strong> (optional) field to use as command to run the image</li>
+<li><strong>ports</strong> published ports declaration, this is the port service inside container runs for, can also be UDP-port</li>
+<li><strong>environment</strong> environment variables as key-value objects</li>
+</ul>
+<h2 id="updating-service">Updating service</h2>
+<h3 id="non-ha-update">Non-HA update</h3>
+<p>Steps:
+1. Build docker image and push it to repository
+2. Issue <code>PUT</code> request to the service description and update at least new <strong>version</strong> (different between previous, it can be a date for example) and also <strong>image</strong> path if you must.
+3. Wait for new version of the container to deploy. In the time between pulling the new image and running that there will be small downtime.</p>
+<h3 id="ha-update">HA update</h3>
+<p>So called Green-Blue deployment is actually quite easy to handle</p>
+<p>Steps:
+1. Build docker image and push it to repository using new tag ie. <code>mywebserver:v1</code> -&gt; <code>mywebserver:v2</code>
+2. Create new service (blue) and refer to that image. Have same port configuration as the <em>green</em> service.
+3. Wait for the new <em>green</em> service to deploy and maybe check it is working correctly by configuring some development loadbalancer to point to it. ie. <code>green.service.example.com</code> and <code>blue.service.example.com</code> and the production traffic will go to <code>production.service.example.com</code>
+4. After you're happy, issue <code>PUT</code> into the production LB and change it to point to the new <em>green</em> service instead of the <em>blue</em>.
+5. If you want to rollback just issue another <code>PUT</code> into the production LB and change it point back to <em>blue</em> service.</p>
+<h1 id="creating-and-managing-loadbalancers">Creating and managing loadbalancers</h1>
+<p>See section from API docs.</p>
+<h1 id="adding-new-instances-to-cluster">Adding new instances to cluster</h1>
+<p>New instaces can be added to cluster by just configuring the <em>halti-agent</em> to run on that instance properly.
+It will <em>call home</em> to the pointed <strong>master</strong> and register itself to accept workload.</p>
+<p>It's important to take care of <strong>capabilities</strong> of new instances.</p>
+<h1 id="removing-instances-from-cluster">Removing instances from cluster</h1>
+<p>After instance is missing from the cluster it will reschedule all it's containers to other instances if possible. (following the limits and requirements). Just taking node offline or even shutting down the <em>halit-agent</em> will do that.</p>
+<h1 id="problem-solving-and-common-problems">Problem solving and common problems</h1>
+<h2 id="service-doesnt-run-on-any-instance">Service doesn't run on any instance</h2>
+<p>Usually the problem is in set of these:
+- Instance limits reached (scheduling error)
+- Docker image isn't pulled (registry or connection error)
+- Problem with image or command and it shuts down instantly (container error)</p>
+<p>If you can't see your container to spin up make sure it's first scheduled by seeing if the service has instances listed under <code>allocated_instances</code>. (See asking the service state from the API)</p>
+<p>If there is <code>allocated_instances</code> scheduler has already scheduled it to run in some node(s).
+So then the problem is outside Halti master, somewhere else.</p>
+<p>To investigate scheduling problems you should curl the following endpoint:</p>
+<pre><code>curl http://halti-master.services.example.com:4040/api/v1/state | jq .
+</code></pre>
+
+<pre><code>{
+  &quot;unscheduled&quot;: [
+    {
+      &quot;problem&quot;: {
+        &quot;host&quot;: {
+          &quot;services&quot;: [
+            &quot;1411c846-3353-45f0-a5d5-0fc35afa20bc&quot;,
+            &quot;4897c316-c7dd-4238-919f-cb8efce569ae&quot;,
+            &quot;a60c6800-80f0-45e1-a985-5eaf7b83afcd&quot;,
+            &quot;6eaad1ba-e14b-46cc-adfb-6d79cc786420&quot;
+          ],
+          &quot;containers&quot;: [
+            &quot;6eaad1ba-e14b-46cc-adfb-6d79cc786420&quot;,
+            &quot;a60c6800-80f0-45e1-a985-5eaf7b83afcd&quot;,
+            &quot;4897c316-c7dd-4238-919f-cb8efce569ae&quot;,
+            &quot;1411c846-3353-45f0-a5d5-0fc35afa20bc&quot;
+          ],
+          &quot;capabilities&quot;: [
+            &quot;public&quot;
+          ],
+          &quot;memory&quot;: 402,
+          &quot;cpu&quot;: 0.30000000000000004,
+          &quot;instance-id&quot;: &quot;c25269a3-7968-48e6-b5cf-b5ef68747675&quot;
+        },
+        &quot;reason&quot;: &quot;not-enough-memory&quot;
+      },
+      &quot;container-id&quot;: 0,
+      &quot;requirements&quot;: [],
+      &quot;cpu&quot;: 0.1,
+      &quot;memory&quot;: 1280,
+      &quot;service-id&quot;: &quot;8744f08e-db63-40d3-b47d-87bbda8555a1&quot;
+    }
+  ]
+}
+</code></pre>
+
+<p>As you can see there is one service (<em>8744f08e-db63-40d3-b47d-87bbda8555a1</em>) unscheduled
+because it was otherwise suitable to run in instance <code>c25269a3-7968-48e6-b5cf-b5ef68747675</code>
+but the intance didn't have any more memory available. To schedule that service you have to change memory requirements, vertically scale your nodes or add more nodes to your cluster.</p>
+<p>In this situation there is only <em>402MB</em> free memory but the requirement is <em>1280MB</em></p>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../architecture/" class="btn btn-neutral float-right" title="Architecture">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href=".." class="btn btn-neutral" title="Home"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href=".." style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../architecture/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>

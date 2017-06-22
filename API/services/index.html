@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Services - Halti Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Services";
+    var mkdocs_page_input_path = "API/services.md";
+    var mkdocs_page_url = "/API/services/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Halti Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../administration_and_usage/">Administration and usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../architecture/">Architecture</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../getting_started/">Getting started</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../installation/">Installation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../scheduler/">Scheduler</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">API</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../hosts/">Hosts</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../loadbalancers/">Loadbalancers</a>
+                </li>
+                <li class=" current">
+                    
+    <a class="current" href="./">Services</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#services">Services</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#list-all-services">List All Services</a></li>
+        
+            <li><a class="toctree-l4" href="#create-a-new-service">Create a New Service</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l3"><a href="#single-service">Single service</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#read-service">Read Service</a></li>
+        
+            <li><a class="toctree-l4" href="#update-service">Update Service</a></li>
+        
+            <li><a class="toctree-l4" href="#delete-service">Delete Service</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Halti Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>API &raquo;</li>
+        
+      
+    
+    <li>Services</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="services">Services</h1>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>Base URL</th>
+<th>Format</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Services</td>
+<td><code>/api/v1/services</code></td>
+<td>JSON</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list-all-services">List All Services</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>JSON</td>
+<td>200</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="response">Response</h4>
+<pre><code>{
+  &quot;services&quot;: [
+    {
+      &quot;name&quot;: &quot;hello-world3&quot;,
+      &quot;memory&quot;: 700,
+      &quot;ports&quot;: [
+                  {
+                    &quot;port&quot;: 80,
+                    &quot;protocol&quot;: &quot;tcp&quot;
+                  }
+      ],
+      &quot;instances&quot;: 1,
+      &quot;image&quot;: &quot;tutum/hello-world&quot;,
+      &quot;requirements&quot;: [&quot;SSD&quot;],
+      &quot;environment&quot;: [
+        {
+          &quot;value&quot;: &quot;80&quot;,
+          &quot;key&quot;: &quot;PORT&quot;
+        }
+      ],
+      &quot;service_id&quot;: &quot;ececb4a5-7d64-4b1a-b0cc-45e26e4c9603&quot;,
+      &quot;version&quot;: &quot;hello4&quot;,
+      &quot;enabled&quot;: true,
+      &quot;cpu&quot;: 1
+    },
+    {
+      &quot;name&quot;: &quot;hello-world8000&quot;,
+      &quot;memory&quot;: 700,
+      &quot;ports&quot;: [
+          {
+            &quot;port&quot;: 80,
+            &quot;protocol&quot;: &quot;tcp&quot;
+          },
+          {
+            &quot;port&quot;: 8080,
+            &quot;protocol&quot;: &quot;tcp&quot;
+          }
+      ],
+      &quot;instances&quot;: 2,
+      &quot;image&quot;: &quot;tutum/hello-world&quot;,
+      &quot;environment&quot;: [
+        {
+          &quot;value&quot;: &quot;80&quot;,
+          &quot;key&quot;: &quot;PORT&quot;
+        }
+      ],
+      &quot;service_id&quot;: &quot;5a1496e6-13e8-444e-a2ad-3f740a1be837&quot;,
+      &quot;version&quot;: &quot;hello1&quot;,
+      &quot;enabled&quot;: true,
+      &quot;cpu&quot;: 1
+    },
+    {
+      &quot;name&quot;: &quot;hello-world8000&quot;,
+      &quot;memory&quot;: 700,
+      &quot;ports&quot;: [
+          {
+            &quot;port&quot;: 80,
+            &quot;protocol&quot;: &quot;tcp&quot;
+          },
+          {
+            &quot;port&quot;: 8080,
+            &quot;protocol&quot;: &quot;tcp&quot;
+          }
+      ],
+      &quot;instances&quot;: 2,
+      &quot;image&quot;: &quot;tutum/hello-world&quot;,
+      &quot;environment&quot;: [
+        {
+          &quot;value&quot;: &quot;80&quot;,
+          &quot;key&quot;: &quot;PORT&quot;
+        }
+      ],
+      &quot;service_id&quot;: &quot;491b2a26-000f-4630-ab2f-fe0222d03a0a&quot;,
+      &quot;version&quot;: &quot;hello1&quot;,
+      &quot;enabled&quot;: true,
+      &quot;cpu&quot;: 1
+    }
+  ]
+}
+
+</code></pre>
+
+<h2 id="create-a-new-service">Create a New Service</h2>
+<p>Creating new service takes service name, image, ports, env, instance count and resource requirements.</p>
+<p>CPU requirement is part of CPU:s ie. one host has 2 cores so then you can put 4 CPU=0.5 services in one host.
+Memory requirements is MB of memory.</p>
+<p><strong>instances</strong> mark number of running containers in cluster. You can set this higher than the count of hosts in cluster but there will be only one instance of this service per host.</p>
+<p><strong>version</strong> must be different string than previous version. Affects only for already deployed services.</p>
+<p><strong>image</strong> full path to docker image repository</p>
+<p><strong>requirements</strong> optional requirements for host machine</p>
+<p><strong>ports</strong> you can specify just one integer between 0-65535 or define it with object notation.
+Object notation also accepts protocol definition (defaults to tcp).</p>
+<p><strong>command</strong> optional command for docker image</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>POST</td>
+<td>JSON</td>
+<td>201</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request">Request</h3>
+<pre><code>{
+    &quot;name&quot;: &quot;hello-world8000&quot;,
+    &quot;cpu&quot;: 0.1,
+    &quot;enabled&quot;: true,
+    &quot;memory&quot;: 700,
+    &quot;command&quot;: &quot;bash&quot;,
+    &quot;instances&quot;: 2,
+    &quot;requirements&quot;: [&quot;SSD&quot;, &quot;INTRANET&quot;],
+    &quot;version&quot;: &quot;hello1&quot;,
+    &quot;image&quot;: &quot;tutum/hello-world&quot;,
+    &quot;ports&quot;: [
+        80,
+        {
+            &quot;port&quot;: 8080,
+            &quot;protocol&quot;: &quot;udp&quot;
+        }
+    ],
+    &quot;environment&quot;: [{&quot;key&quot;: &quot;PORT&quot;, &quot;value&quot;: &quot;80&quot;}]
+}
+</code></pre>
+
+<h3 id="response_1">Response</h3>
+<pre><code>{
+    &quot;service&quot;: {
+        &quot;name&quot;: &quot;hello-world8000&quot;,
+        &quot;memory&quot;: 700,
+        &quot;ports&quot;: [
+          {
+            &quot;port&quot;: 80,
+            &quot;protocol&quot;: &quot;tcp&quot;
+          },
+          {
+            &quot;port&quot;: 8080,
+            &quot;protocol&quot;: &quot;udp&quot;
+          }
+        ],
+        &quot;instances&quot;: 2,
+        &quot;requirements&quot;: [&quot;SSD&quot;, &quot;INTRANET&quot;],
+        &quot;image&quot;: &quot;tutum/hello-world&quot;,
+        &quot;command&quot;: &quot;bash&quot;,
+        &quot;environment&quot;: [
+            {
+                &quot;key&quot;: &quot;PORT&quot;,
+                &quot;value&quot;: &quot;80&quot;
+            }
+        ],
+        &quot;service_id&quot;: &quot;491b2a26-000f-4630-ab2f-fe0222d03a0a&quot;,
+        &quot;version&quot;: &quot;hello1&quot;,
+        &quot;enabled&quot;: true,
+        &quot;cpu&quot;: 1
+    }
+}
+</code></pre>
+
+<h1 id="single-service">Single service</h1>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>Base URL</th>
+<th>Format</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Single Service</td>
+<td><code>/api/v1/services/{service_id}</code></td>
+<td>JSON</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<p><code>running_on</code> is readonly field</p>
+<h2 id="read-service">Read Service</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>JSON</td>
+<td>200</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="response_2">Response</h3>
+<pre><code>{
+  &quot;service&quot;: {
+    &quot;name&quot;: &quot;registration&quot;,
+    &quot;memory&quot;: 250,
+    &quot;running_on&quot;: [{
+      &quot;instance_id&quot;: &quot;0532c5f6-6eda-4319-b739-5a94e5384b44&quot;,
+      &quot;address&quot;: null,
+      &quot;port&quot;: null,
+      &quot;source&quot;: 8000
+    }, {
+      &quot;instance_id&quot;: &quot;0532c5f6-6eda-4319-b739-5a94e5384b44&quot;,
+      &quot;address&quot;: &quot;10.4.1.201&quot;,
+      &quot;port&quot;: 32776,
+      &quot;source&quot;: 80
+    }],
+    &quot;ports&quot;: [80],
+    &quot;instances&quot;: 1,
+    &quot;requirements&quot;: [&quot;SSD&quot;, &quot;INTRANET&quot;],
+    &quot;image&quot;: &quot;repo1.slush.org:443\/registration&quot;,
+    &quot;environment&quot;: [{
+      &quot;key&quot;: &quot;MONGO_URI&quot;,
+      &quot;value&quot;: &quot;mongodb:\/\/10.1.0.226\/slushreg&quot;
+    }, {
+      &quot;key&quot;: &quot;AWS_HOST&quot;,
+      &quot;value&quot;: &quot;storage.slush.xyz&quot;
+    }, {
+      &quot;key&quot;: &quot;SLUSHPASS_ACCESS_TOKEN_PATH&quot;,
+      &quot;value&quot;: &quot;\/oauth\/v2\/token&quot;
+    }, {
+      &quot;key&quot;: &quot;SLUSHPASS_AUTHORIZE_PATH&quot;,
+      &quot;value&quot;: &quot;\/oauth\/v2\/authenticate&quot;
+    }, {
+      &quot;key&quot;: &quot;SLUSHPASS_BASE_URL&quot;,
+      &quot;value&quot;: &quot;https:\/\/pass.slush.org&quot;
+    }, {
+      &quot;key&quot;: &quot;REG_BASE_URL&quot;,
+      &quot;value&quot;: &quot;https:\/\/register.slush.org&quot;
+    }, {
+      &quot;key&quot;: &quot;SHOP_BASE_URL&quot;,
+      &quot;value&quot;: &quot;https:\/\/shop.slush.org&quot;
+    }, {
+      &quot;key&quot;: &quot;SERVER_PORT&quot;,
+      &quot;value&quot;: &quot;8000&quot;
+    }],
+    &quot;service_id&quot;: &quot;294f7ba7-72d4-4318-b690-bf273a7c2d1c&quot;,
+    &quot;version&quot;: &quot;1&quot;,
+    &quot;enabled&quot;: true,
+    &quot;cpu&quot;: 0.1
+  }
+}
+</code></pre>
+
+<h2 id="update-service">Update Service</h2>
+<p>This is partial operation and you can just PUT different fields.
+Changes are merged in server and returned the full document
+Changes are propagated to cluster asynchronously</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>PUT</td>
+<td>JSON</td>
+<td>202</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request_1">Request</h3>
+<pre><code>{
+    &quot;enabled&quot;: false,
+    &quot;version&quot;: &quot;hello2&quot;
+}
+</code></pre>
+
+<h3 id="response_3">Response</h3>
+<pre><code>{
+  &quot;service&quot;: {
+    &quot;_id&quot;: &quot;570c101387d10657d803a2f9&quot;,
+    &quot;name&quot;: &quot;hello-world3&quot;,
+    &quot;memory&quot;: 700,
+    &quot;ports&quot;: [
+      {
+        &quot;port&quot;: 80,
+        &quot;protocol&quot;: &quot;tcp&quot;
+      }
+    ],
+    &quot;instances&quot;: 1,
+    &quot;requirements&quot;: [&quot;SSD&quot;],
+    &quot;image&quot;: &quot;tutum/hello-world&quot;,
+    &quot;environment&quot;: [
+      {
+        &quot;key&quot;: &quot;PORT&quot;,
+        &quot;value&quot;: &quot;80&quot;
+      }
+    ],
+    &quot;service_id&quot;: &quot;ececb4a5-7d64-4b1a-b0cc-45e26e4c9603&quot;,
+    &quot;version&quot;: &quot;hello2&quot;,
+    &quot;enabled&quot;: false,
+    &quot;cpu&quot;: 1
+  }
+}
+</code></pre>
+
+<h2 id="delete-service">Delete Service</h2>
+<p>This removes service from halti. Note that you can also just disable service by setting enabled to false.
+Process is asynchronous</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>DELETE</td>
+<td>JSON</td>
+<td>202</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h4 id="response-202">Response (202)</h4>
+<pre><code>{
+  &quot;ack&quot;: true
+}
+</code></pre>
+
+<h4 id="response-400">Response (400)</h4>
+<pre><code>{
+  &quot;ack&quot;: false,
+  &quot;error&quot;: &quot;Service not found or remove not acknowledged&quot;
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+      
+        <a href="../loadbalancers/" class="btn btn-neutral" title="Loadbalancers"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../loadbalancers/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+    </span>
+</div>
+    <script src="../../js/theme.js"></script>
+
+</body>
+</html>

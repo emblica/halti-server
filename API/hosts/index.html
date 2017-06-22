@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../../img/favicon.ico">
+  <title>Hosts - Halti Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Hosts";
+    var mkdocs_page_input_path = "API/hosts.md";
+    var mkdocs_page_url = "/API/hosts/";
+  </script>
+  
+  <script src="../../js/jquery-2.1.1.min.js"></script>
+  <script src="../../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href="../.." class="icon icon-home"> Halti Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../administration_and_usage/">Administration and usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../architecture/">Architecture</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../getting_started/">Getting started</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../installation/">Installation</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../../scheduler/">Scheduler</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">API</span>
+    <ul class="subnav">
+                <li class=" current">
+                    
+    <a class="current" href="./">Hosts</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l3"><a href="#hosts-instances">Hosts / Instances</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l4" href="#list-all-hosts">List All Hosts</a></li>
+        
+            <li><a class="toctree-l4" href="#healthy-hosts-instances">Healthy Hosts / Instances</a></li>
+        
+        </ul>
+    
+
+    </ul>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../loadbalancers/">Loadbalancers</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../services/">Services</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="../..">Halti Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../..">Docs</a> &raquo;</li>
+    
+      
+        
+          <li>API &raquo;</li>
+        
+      
+    
+    <li>Hosts</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="hosts-instances">Hosts / Instances</h1>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>Base URL</th>
+<th>Format</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Hosts</td>
+<td><code>/api/v1/instances</code></td>
+<td>JSON</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h2 id="list-all-hosts">List All Hosts</h2>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>JSON</td>
+<td>200</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<pre><code>{
+  &quot;instances&quot;: [
+    {
+      &quot;config&quot;: {
+        &quot;containers&quot;: [
+          &quot;c01d84bc-31f8-4357-8754-c60ec323d321&quot;,
+          &quot;bc922611-bfd1-44cb-8d8a-09148df0009a&quot;,
+          &quot;e8bfbb9d-4b0d-40b9-94ac-d509d116ee3c&quot;
+        ]
+      },
+      &quot;last_heartbeat&quot;: &quot;2016-04-11T22:12:13.293+03:00&quot;,
+      &quot;capabilities&quot;: [&quot;SSD&quot;, &quot;INTRANET&quot;],
+      &quot;containers&quot;: [],
+      &quot;created&quot;: &quot;2016-04-11T22:12:03.234+03:00&quot;,
+      &quot;instance_id&quot;: &quot;d107ce15-db80-40fc-828c-edcb9fa79028&quot;,
+      &quot;system&quot;: {
+        &quot;system&quot;: &quot;Darwin&quot;,
+        &quot;cpus&quot;: 8,
+        &quot;system_version&quot;: &quot;Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64&quot;,
+        &quot;hostname&quot;: &quot;L760&quot;
+      },
+      &quot;client&quot;: {
+        &quot;GoVersion&quot;: &quot;go1.4.2&quot;,
+        &quot;Arch&quot;: &quot;amd64&quot;,
+        &quot;GitCommit&quot;: &quot;d12ea79&quot;,
+        &quot;Version&quot;: &quot;1.8.1&quot;,
+        &quot;ApiVersion&quot;: &quot;1.20&quot;,
+        &quot;BuildTime&quot;: &quot;Thu Aug 13 02:49:29 UTC 2015&quot;,
+        &quot;Os&quot;: &quot;linux&quot;,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;
+      },
+      &quot;info&quot;: {
+        &quot;ID&quot;: &quot;ZKFK:FH64:SML4:IH6B:PEIX:XPKL:D4Y5:7U57:QITU:D7L2:D6LW:BYWW&quot;,
+        &quot;MemTotal&quot;: 2099998720,
+        &quot;BridgeNfIptables&quot;: true,
+        &quot;DriverStatus&quot;: [
+          [
+            &quot;Root Dir&quot;,
+            &quot;/mnt/sda1/var/lib/docker/aufs&quot;
+          ],
+          [
+            &quot;Backing Filesystem&quot;,
+            &quot;extfs&quot;
+          ],
+          [
+            &quot;Dirs&quot;,
+            &quot;39&quot;
+          ],
+          [
+            &quot;Dirperm1 Supported&quot;,
+            &quot;true&quot;
+          ]
+        ],
+        &quot;Labels&quot;: [
+          &quot;provider=virtualbox&quot;
+        ],
+        &quot;Driver&quot;: &quot;aufs&quot;,
+        &quot;LoggingDriver&quot;: &quot;json-file&quot;,
+        &quot;NFd&quot;: 23,
+        &quot;CpuCfsQuota&quot;: true,
+        &quot;NGoroutines&quot;: 54,
+        &quot;Images&quot;: 35,
+        &quot;Containers&quot;: 2,
+        &quot;ExperimentalBuild&quot;: false,
+        &quot;InitSha1&quot;: &quot;&quot;,
+        &quot;IndexServerAddress&quot;: &quot;https://index.docker.io/v1/&quot;,
+        &quot;SystemTime&quot;: &quot;2016-04-11T19:12:03.240898323Z&quot;,
+        &quot;HttpsProxy&quot;: &quot;&quot;,
+        &quot;ExecutionDriver&quot;: &quot;native-0.2&quot;,
+        &quot;SwapLimit&quot;: true,
+        &quot;Debug&quot;: true,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;,
+        &quot;NEventsListener&quot;: 1,
+        &quot;MemoryLimit&quot;: true,
+        &quot;BridgeNfIp6tables&quot;: true,
+        &quot;OomKillDisable&quot;: true,
+        &quot;Name&quot;: &quot;default&quot;,
+        &quot;NoProxy&quot;: &quot;&quot;,
+        &quot;InitPath&quot;: &quot;/usr/local/bin/docker&quot;,
+        &quot;OperatingSystem&quot;: &quot;Boot2Docker 1.8.1 (TCL 6.3); master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015&quot;,
+        &quot;IPv4Forwarding&quot;: true,
+        &quot;NCPU&quot;: 1,
+        &quot;CpuCfsPeriod&quot;: true,
+        &quot;DockerRootDir&quot;: &quot;/mnt/sda1/var/lib/docker&quot;,
+        &quot;HttpProxy&quot;: &quot;&quot;
+      }
+    },
+    {
+      &quot;config&quot;: {
+        &quot;containers&quot;: [
+          &quot;c01d84bc-31f8-4357-8754-c60ec323d321&quot;,
+          &quot;bc922611-bfd1-44cb-8d8a-09148df0009a&quot;,
+          &quot;e8bfbb9d-4b0d-40b9-94ac-d509d116ee3c&quot;
+        ]
+      },
+      &quot;last_heartbeat&quot;: &quot;2016-04-11T22:14:43.978+03:00&quot;,
+      &quot;containers&quot;: [],
+      &quot;created&quot;: &quot;2016-04-11T22:12:23.605+03:00&quot;,
+      &quot;instance_id&quot;: &quot;114d4230-bcbc-47b1-97ef-c7ffff39297b&quot;,
+      &quot;system&quot;: {
+        &quot;system&quot;: &quot;Darwin&quot;,
+        &quot;cpus&quot;: 8,
+        &quot;system_version&quot;: &quot;Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64&quot;,
+        &quot;hostname&quot;: &quot;L760&quot;
+      },
+      &quot;client&quot;: {
+        &quot;GoVersion&quot;: &quot;go1.4.2&quot;,
+        &quot;Arch&quot;: &quot;amd64&quot;,
+        &quot;GitCommit&quot;: &quot;d12ea79&quot;,
+        &quot;Version&quot;: &quot;1.8.1&quot;,
+        &quot;ApiVersion&quot;: &quot;1.20&quot;,
+        &quot;BuildTime&quot;: &quot;Thu Aug 13 02:49:29 UTC 2015&quot;,
+        &quot;Os&quot;: &quot;linux&quot;,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;
+      },
+      &quot;info&quot;: {
+        &quot;ID&quot;: &quot;ZKFK:FH64:SML4:IH6B:PEIX:XPKL:D4Y5:7U57:QITU:D7L2:D6LW:BYWW&quot;,
+        &quot;MemTotal&quot;: 2099998720,
+        &quot;BridgeNfIptables&quot;: true,
+        &quot;DriverStatus&quot;: [
+          [
+            &quot;Root Dir&quot;,
+            &quot;/mnt/sda1/var/lib/docker/aufs&quot;
+          ],
+          [
+            &quot;Backing Filesystem&quot;,
+            &quot;extfs&quot;
+          ],
+          [
+            &quot;Dirs&quot;,
+            &quot;39&quot;
+          ],
+          [
+            &quot;Dirperm1 Supported&quot;,
+            &quot;true&quot;
+          ]
+        ],
+        &quot;Labels&quot;: [
+          &quot;provider=virtualbox&quot;
+        ],
+        &quot;Driver&quot;: &quot;aufs&quot;,
+        &quot;LoggingDriver&quot;: &quot;json-file&quot;,
+        &quot;NFd&quot;: 23,
+        &quot;CpuCfsQuota&quot;: true,
+        &quot;NGoroutines&quot;: 54,
+        &quot;Images&quot;: 35,
+        &quot;Containers&quot;: 2,
+        &quot;ExperimentalBuild&quot;: false,
+        &quot;InitSha1&quot;: &quot;&quot;,
+        &quot;IndexServerAddress&quot;: &quot;https://index.docker.io/v1/&quot;,
+        &quot;SystemTime&quot;: &quot;2016-04-11T19:12:23.611537998Z&quot;,
+        &quot;HttpsProxy&quot;: &quot;&quot;,
+        &quot;ExecutionDriver&quot;: &quot;native-0.2&quot;,
+        &quot;SwapLimit&quot;: true,
+        &quot;Debug&quot;: true,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;,
+        &quot;NEventsListener&quot;: 1,
+        &quot;MemoryLimit&quot;: true,
+        &quot;BridgeNfIp6tables&quot;: true,
+        &quot;OomKillDisable&quot;: true,
+        &quot;Name&quot;: &quot;default&quot;,
+        &quot;NoProxy&quot;: &quot;&quot;,
+        &quot;InitPath&quot;: &quot;/usr/local/bin/docker&quot;,
+        &quot;OperatingSystem&quot;: &quot;Boot2Docker 1.8.1 (TCL 6.3); master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015&quot;,
+        &quot;IPv4Forwarding&quot;: true,
+        &quot;NCPU&quot;: 1,
+        &quot;CpuCfsPeriod&quot;: true,
+        &quot;DockerRootDir&quot;: &quot;/mnt/sda1/var/lib/docker&quot;,
+        &quot;HttpProxy&quot;: &quot;&quot;
+      }
+    },
+    {
+      &quot;config&quot;: {
+        &quot;containers&quot;: [
+          &quot;ececb4a5-7d64-4b1a-b0cc-45e26e4c9603&quot;,
+          &quot;5a1496e6-13e8-444e-a2ad-3f740a1be837&quot;
+        ]
+      },
+      &quot;last_heartbeat&quot;: &quot;2016-04-13T09:57:07.311+03:00&quot;,
+      &quot;containers&quot;: [
+        {
+          &quot;Status&quot;: &quot;Up 3 hours&quot;,
+          &quot;Created&quot;: 1460502282,
+          &quot;Names&quot;: [
+            &quot;/5a1496e6-13e8-444e-a2ad-3f740a1be837&quot;
+          ],
+          &quot;Command&quot;: &quot;/bin/sh -c 'php-fpm -d variables_order=\&quot;EGPCS\&quot; &amp;&amp; (tail -F /var/log/nginx/access.log &amp;) &amp;&amp; exec nginx -g \&quot;daemon off;\&quot;'&quot;,
+          &quot;HostConfig&quot;: {
+            &quot;NetworkMode&quot;: &quot;default&quot;
+          },
+          &quot;Id&quot;: &quot;c777cca181d57c30910a42a13acf227da8b0b107aa351e378840cbdd98620c9c&quot;,
+          &quot;Labels&quot;: {
+            &quot;halti&quot;: &quot;true&quot;,
+            &quot;version&quot;: &quot;hello1&quot;,
+            &quot;service&quot;: &quot;hello-world8000&quot;
+          },
+          &quot;Image&quot;: &quot;tutum/hello-world&quot;,
+          &quot;Ports&quot;: [
+            {
+              &quot;PublicPort&quot;: 32824,
+              &quot;IP&quot;: &quot;192.168.99.100&quot;,
+              &quot;PrivatePort&quot;: 8080,
+              &quot;Type&quot;: &quot;tcp&quot;
+            },
+            {
+              &quot;PublicPort&quot;: 32825,
+              &quot;IP&quot;: &quot;192.168.99.100&quot;,
+              &quot;PrivatePort&quot;: 80,
+              &quot;Type&quot;: &quot;tcp&quot;
+            }
+          ]
+        },
+        {
+          &quot;Status&quot;: &quot;Up 3 hours&quot;,
+          &quot;Created&quot;: 1460502279,
+          &quot;Names&quot;: [
+            &quot;/ececb4a5-7d64-4b1a-b0cc-45e26e4c9603&quot;
+          ],
+          &quot;Command&quot;: &quot;/bin/sh -c 'php-fpm -d variables_order=\&quot;EGPCS\&quot; &amp;&amp; (tail -F /var/log/nginx/access.log &amp;) &amp;&amp; exec nginx -g \&quot;daemon off;\&quot;'&quot;,
+          &quot;HostConfig&quot;: {
+            &quot;NetworkMode&quot;: &quot;default&quot;
+          },
+          &quot;Id&quot;: &quot;c68436022a14755a581b010f613b0ca463b81a552f59bfda0200ec444eb5dcef&quot;,
+          &quot;Labels&quot;: {
+            &quot;halti&quot;: &quot;true&quot;,
+            &quot;version&quot;: &quot;hello4&quot;,
+            &quot;service&quot;: &quot;hello-world3&quot;
+          },
+          &quot;Image&quot;: &quot;tutum/hello-world&quot;,
+          &quot;Ports&quot;: [
+            {
+              &quot;PublicPort&quot;: 32823,
+              &quot;IP&quot;: &quot;192.168.99.100&quot;,
+              &quot;PrivatePort&quot;: 80,
+              &quot;Type&quot;: &quot;tcp&quot;
+            }
+          ]
+        }
+      ],
+      &quot;created&quot;: &quot;2016-04-11T22:14:47.316+03:00&quot;,
+      &quot;instance_id&quot;: &quot;c0bb9dc2-6c99-4c1b-9662-0602abbce695&quot;,
+      &quot;system&quot;: {
+        &quot;system&quot;: &quot;Darwin&quot;,
+        &quot;cpus&quot;: 8,
+        &quot;system_version&quot;: &quot;Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64&quot;,
+        &quot;hostname&quot;: &quot;L760&quot;
+      },
+      &quot;client&quot;: {
+        &quot;GoVersion&quot;: &quot;go1.4.2&quot;,
+        &quot;Arch&quot;: &quot;amd64&quot;,
+        &quot;GitCommit&quot;: &quot;d12ea79&quot;,
+        &quot;Version&quot;: &quot;1.8.1&quot;,
+        &quot;ApiVersion&quot;: &quot;1.20&quot;,
+        &quot;BuildTime&quot;: &quot;Thu Aug 13 02:49:29 UTC 2015&quot;,
+        &quot;Os&quot;: &quot;linux&quot;,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;
+      },
+      &quot;info&quot;: {
+        &quot;ID&quot;: &quot;ZKFK:FH64:SML4:IH6B:PEIX:XPKL:D4Y5:7U57:QITU:D7L2:D6LW:BYWW&quot;,
+        &quot;MemTotal&quot;: 2099998720,
+        &quot;BridgeNfIptables&quot;: true,
+        &quot;DriverStatus&quot;: [
+          [
+            &quot;Root Dir&quot;,
+            &quot;/mnt/sda1/var/lib/docker/aufs&quot;
+          ],
+          [
+            &quot;Backing Filesystem&quot;,
+            &quot;extfs&quot;
+          ],
+          [
+            &quot;Dirs&quot;,
+            &quot;39&quot;
+          ],
+          [
+            &quot;Dirperm1 Supported&quot;,
+            &quot;true&quot;
+          ]
+        ],
+        &quot;Labels&quot;: [
+          &quot;provider=virtualbox&quot;
+        ],
+        &quot;Driver&quot;: &quot;aufs&quot;,
+        &quot;LoggingDriver&quot;: &quot;json-file&quot;,
+        &quot;NFd&quot;: 23,
+        &quot;CpuCfsQuota&quot;: true,
+        &quot;NGoroutines&quot;: 54,
+        &quot;Images&quot;: 35,
+        &quot;Containers&quot;: 2,
+        &quot;ExperimentalBuild&quot;: false,
+        &quot;InitSha1&quot;: &quot;&quot;,
+        &quot;IndexServerAddress&quot;: &quot;https://index.docker.io/v1/&quot;,
+        &quot;SystemTime&quot;: &quot;2016-04-11T19:14:47.323625842Z&quot;,
+        &quot;HttpsProxy&quot;: &quot;&quot;,
+        &quot;ExecutionDriver&quot;: &quot;native-0.2&quot;,
+        &quot;SwapLimit&quot;: true,
+        &quot;Debug&quot;: true,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;,
+        &quot;NEventsListener&quot;: 1,
+        &quot;MemoryLimit&quot;: true,
+        &quot;BridgeNfIp6tables&quot;: true,
+        &quot;OomKillDisable&quot;: true,
+        &quot;Name&quot;: &quot;default&quot;,
+        &quot;NoProxy&quot;: &quot;&quot;,
+        &quot;InitPath&quot;: &quot;/usr/local/bin/docker&quot;,
+        &quot;OperatingSystem&quot;: &quot;Boot2Docker 1.8.1 (TCL 6.3); master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015&quot;,
+        &quot;IPv4Forwarding&quot;: true,
+        &quot;NCPU&quot;: 1,
+        &quot;CpuCfsPeriod&quot;: true,
+        &quot;DockerRootDir&quot;: &quot;/mnt/sda1/var/lib/docker&quot;,
+        &quot;HttpProxy&quot;: &quot;&quot;
+      }
+    }
+  ]
+}
+
+</code></pre>
+
+<h2 id="healthy-hosts-instances">Healthy Hosts / Instances</h2>
+<table>
+<thead>
+<tr>
+<th>Collection</th>
+<th>Base URL</th>
+<th>Format</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Healthy Hosts</td>
+<td><code>/api/v1/instances/healthy</code></td>
+<td>JSON</td>
+<td>-</td>
+<td>Shows only currently active hosts of the cluster</td>
+</tr>
+</tbody>
+</table>
+<h3 id="list-all-healthy-hosts">List All Healthy Hosts</h3>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Format</th>
+<th>Response Status (OK)</th>
+<th>Stability</th>
+<th>Additional information</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GET</td>
+<td>JSON</td>
+<td>200</td>
+<td>-</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<pre><code>{
+  &quot;instances&quot;: [{
+      &quot;config&quot;: {
+        &quot;containers&quot;: [
+          &quot;c01d84bc-31f8-4357-8754-c60ec323d321&quot;,
+          &quot;bc922611-bfd1-44cb-8d8a-09148df0009a&quot;,
+          &quot;e8bfbb9d-4b0d-40b9-94ac-d509d116ee3c&quot;
+        ]
+      },
+      &quot;last_heartbeat&quot;: &quot;2016-04-11T22:12:13.293+03:00&quot;,
+      &quot;containers&quot;: [],
+      &quot;capabilities&quot;: [&quot;SSD&quot;, &quot;INTRANET&quot;],
+      &quot;created&quot;: &quot;2016-04-11T22:12:03.234+03:00&quot;,
+      &quot;instance_id&quot;: &quot;d107ce15-db80-40fc-828c-edcb9fa79028&quot;,
+      &quot;system&quot;: {
+        &quot;system&quot;: &quot;Darwin&quot;,
+        &quot;cpus&quot;: 8,
+        &quot;system_version&quot;: &quot;Darwin Kernel Version 15.3.0: Thu Dec 10 18:40:58 PST 2015; root:xnu-3248.30.4~1/RELEASE_X86_64&quot;,
+        &quot;hostname&quot;: &quot;L760&quot;
+      },
+      &quot;client&quot;: {
+        &quot;GoVersion&quot;: &quot;go1.4.2&quot;,
+        &quot;Arch&quot;: &quot;amd64&quot;,
+        &quot;GitCommit&quot;: &quot;d12ea79&quot;,
+        &quot;Version&quot;: &quot;1.8.1&quot;,
+        &quot;ApiVersion&quot;: &quot;1.20&quot;,
+        &quot;BuildTime&quot;: &quot;Thu Aug 13 02:49:29 UTC 2015&quot;,
+        &quot;Os&quot;: &quot;linux&quot;,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;
+      },
+      &quot;info&quot;: {
+        &quot;ID&quot;: &quot;ZKFK:FH64:SML4:IH6B:PEIX:XPKL:D4Y5:7U57:QITU:D7L2:D6LW:BYWW&quot;,
+        &quot;MemTotal&quot;: 2099998720,
+        &quot;BridgeNfIptables&quot;: true,
+        &quot;DriverStatus&quot;: [
+          [
+            &quot;Root Dir&quot;,
+            &quot;/mnt/sda1/var/lib/docker/aufs&quot;
+          ],
+          [
+            &quot;Backing Filesystem&quot;,
+            &quot;extfs&quot;
+          ],
+          [
+            &quot;Dirs&quot;,
+            &quot;39&quot;
+          ],
+          [
+            &quot;Dirperm1 Supported&quot;,
+            &quot;true&quot;
+          ]
+        ],
+        &quot;Labels&quot;: [
+          &quot;provider=virtualbox&quot;
+        ],
+        &quot;Driver&quot;: &quot;aufs&quot;,
+        &quot;LoggingDriver&quot;: &quot;json-file&quot;,
+        &quot;NFd&quot;: 23,
+        &quot;CpuCfsQuota&quot;: true,
+        &quot;NGoroutines&quot;: 54,
+        &quot;Images&quot;: 35,
+        &quot;Containers&quot;: 2,
+        &quot;ExperimentalBuild&quot;: false,
+        &quot;InitSha1&quot;: &quot;&quot;,
+        &quot;IndexServerAddress&quot;: &quot;https://index.docker.io/v1/&quot;,
+        &quot;SystemTime&quot;: &quot;2016-04-11T19:12:03.240898323Z&quot;,
+        &quot;HttpsProxy&quot;: &quot;&quot;,
+        &quot;ExecutionDriver&quot;: &quot;native-0.2&quot;,
+        &quot;SwapLimit&quot;: true,
+        &quot;Debug&quot;: true,
+        &quot;KernelVersion&quot;: &quot;4.0.9-boot2docker&quot;,
+        &quot;NEventsListener&quot;: 1,
+        &quot;MemoryLimit&quot;: true,
+        &quot;BridgeNfIp6tables&quot;: true,
+        &quot;OomKillDisable&quot;: true,
+        &quot;Name&quot;: &quot;default&quot;,
+        &quot;NoProxy&quot;: &quot;&quot;,
+        &quot;InitPath&quot;: &quot;/usr/local/bin/docker&quot;,
+        &quot;OperatingSystem&quot;: &quot;Boot2Docker 1.8.1 (TCL 6.3); master : 7f12e95 - Thu Aug 13 03:24:56 UTC 2015&quot;,
+        &quot;IPv4Forwarding&quot;: true,
+        &quot;NCPU&quot;: 1,
+        &quot;CpuCfsPeriod&quot;: true,
+        &quot;DockerRootDir&quot;: &quot;/mnt/sda1/var/lib/docker&quot;,
+        &quot;HttpProxy&quot;: &quot;&quot;
+      }
+    }]
+}
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../loadbalancers/" class="btn btn-neutral float-right" title="Loadbalancers">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../../scheduler/" class="btn btn-neutral" title="Scheduler"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../../scheduler/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../loadbalancers/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../../js/theme.js"></script>
+
+</body>
+</html>
