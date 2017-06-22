@@ -1,0 +1,15 @@
+{
+    "name": "hello-world-service",
+    "cpu": 0.1,
+    "enabled": true,
+    "memory": 1280,
+    "instances": 1,
+    "requirements": [],
+    "version": "v1",
+    "image": "busybox",
+    "command": "httpd -f -vv -p 8080",
+    "ports": [
+        8080
+    ],
+    "environment": []
+}

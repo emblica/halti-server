@@ -1,0 +1,9 @@
+{
+    "name": "hello-world-loadbalancer",
+    "enabled": true,
+    "hostname": "hello.example.com",
+    "service_id": "<hello-world-service-id>",
+    "source_port": 8080,
+    "force_https": false,
+    "ports": {"http": true, "https": false}
+}

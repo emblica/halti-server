@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  
+  <link rel="shortcut icon" href="../img/favicon.ico">
+  <title>Installation - Halti Documentation</title>
+  <link href='https://fonts.googleapis.com/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700' rel='stylesheet' type='text/css'>
+
+  <link rel="stylesheet" href="../css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../css/theme_extra.css" type="text/css" />
+  <link rel="stylesheet" href="../css/highlight.css">
+  
+  <script>
+    // Current page data
+    var mkdocs_page_name = "Installation";
+    var mkdocs_page_input_path = "installation.md";
+    var mkdocs_page_url = "/installation/";
+  </script>
+  
+  <script src="../js/jquery-2.1.1.min.js"></script>
+  <script src="../js/modernizr-2.8.3.min.js"></script>
+  <script type="text/javascript" src="../js/highlight.pack.js"></script> 
+  
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+      <div class="wy-side-nav-search">
+        <a href=".." class="icon icon-home"> Halti Documentation</a>
+        <div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+	<ul class="current">
+	  
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="..">Home</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../administration_and_usage/">Administration and usage</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../architecture/">Architecture</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../getting_started/">Getting started</a>
+	    </li>
+          
+            <li class="toctree-l1 current">
+		
+    <a class="current" href="./">Installation</a>
+    <ul class="subnav">
+            
+    <li class="toctree-l2"><a href="#using-ansible-for-new-cluster">Using ansible for new cluster</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#dependencies">Dependencies</a></li>
+        
+            <li><a class="toctree-l3" href="#running">Running</a></li>
+        
+        </ul>
+    
+
+    <li class="toctree-l2"><a href="#from-command-line">From command line</a></li>
+    
+        <ul>
+        
+            <li><a class="toctree-l3" href="#master">Master</a></li>
+        
+            <li><a class="toctree-l3" href="#worker">Worker</a></li>
+        
+            <li><a class="toctree-l3" href="#luotsi-loadbalancing">Luotsi - loadbalancing</a></li>
+        
+        </ul>
+    
+
+    </ul>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <a class="" href="../scheduler/">Scheduler</a>
+	    </li>
+          
+            <li class="toctree-l1">
+		
+    <span class="caption-text">API</span>
+    <ul class="subnav">
+                <li class="">
+                    
+    <a class="" href="../API/hosts/">Hosts</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../API/loadbalancers/">Loadbalancers</a>
+                </li>
+                <li class="">
+                    
+    <a class="" href="../API/services/">Services</a>
+                </li>
+    </ul>
+	    </li>
+          
+        </ul>
+      </div>
+      &nbsp;
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+        <a href="..">Halti Documentation</a>
+      </nav>
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="..">Docs</a> &raquo;</li>
+    
+      
+    
+    <li>Installation</li>
+    <li class="wy-breadcrumbs-aside">
+      
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main">
+            <div class="section">
+              
+                <h1 id="using-ansible-for-new-cluster">Using ansible for new cluster</h1>
+<p>Playbooks are here:
+https://github.com/emblica/halti-management-playbooks</p>
+<p>Ansible installs halti-cluster on predefined machines.
+It also installs monitoring and metrics collection setup.</p>
+<p>After installation halti-master (and so the API) can be found at <private_ip_of_master>:4040</p>
+<p>The Grafana by default is in <private_ip_of_master>:3000 and the InfluxDB <private_ip_of_master>:8083/8086</p>
+<h2 id="dependencies">Dependencies</h2>
+<ul>
+<li>python2 (because ansible)</li>
+<li>install dependencies</li>
+</ul>
+<pre><code>pip install ansible
+</code></pre>
+
+<h2 id="running">Running</h2>
+<ul>
+<li>install Halti against existing servers</li>
+</ul>
+<pre><code>ansible-playbook -i hosts site.yml --tags install
+</code></pre>
+
+<h3 id="support-for-capabilities">Support for capabilities</h3>
+<p>You can add halti supported capability-setting by defining <code>capabilities</code> variable for each host.</p>
+<p>ie. <code>capabilities=public,ssd</code></p>
+<h3 id="notes">Notes</h3>
+<ul>
+<li><code>ansible_eth1</code> is assumed to be the private IP of the machine<ul>
+<li>edit halti-nodes.yml if this is not the case</li>
+</ul>
+</li>
+<li>Halti master will run at port 4040 by default</li>
+</ul>
+<h3 id="on-upcloud">On Upcloud</h3>
+<p>Running whole playbook will provision and install a small Halti cluster on UpCloud.</p>
+<p>You need to install additional dependencies if you want to provision the servers through UpClouds APIs</p>
+<pre><code>pip install upcloud_api
+</code></pre>
+
+<ul>
+<li>check that <code>upcloud-ansible</code> submodule is loaded</li>
+</ul>
+<h4 id="running_1">Running</h4>
+<ul>
+<li>provision servers and install Halti cluster</li>
+</ul>
+<pre><code>export UPCLOUD_API_USER=user
+export UPCLOUD_API_PASSWD=pass
+ansible-playbook -i ./upcloud-ansible/inventory/upcloud.py -M ./upcloud-ansible/modules/ site.yml
+</code></pre>
+
+<h4 id="notes_1">Notes</h4>
+<ul>
+<li><code>ansible_eth1</code> is assumed to be the private IP of the machine<ul>
+<li>edit halti-nodes.yml if this is not the case</li>
+</ul>
+</li>
+<li>Halti master will run at port 4040 by default</li>
+<li><code>utils/test_tagging.py</code> is used by <code>halti-servers</code> to ensure the user has tagging permissions</li>
+<li><code>utils/destroy_cluster.py</code> can be used to clean up (main usecase is integration testing)</li>
+</ul>
+<h1 id="from-command-line">From command line</h1>
+<h2 id="master">Master</h2>
+<p>Halti-server is supposed to be run in at least one server.</p>
+<p>To run the latest version of halti-server issue following commands:</p>
+<pre><code># Run mongodb
+docker run --name mongodb -d mongo
+
+# Run Halti server (master)
+docker run -d --restart=always --name=halti-master --env=&quot;PRODUCTION=yes&quot; --env=&quot;PORT=4040&quot; --env=&quot;MONGO_URI=mongodb://mongodb/halti&quot; -p &lt;host-private-ip&gt;:4040:4040/tcp --link mongodb emblica/halti-server
+</code></pre>
+
+<h2 id="worker">Worker</h2>
+<p>Each worker node must have halti-agent running on. Halti agent takes care of the container management.</p>
+<p>Halti-agent is stateless but it's recommended to mount volume for production usage so the state won't clutter with dead instances/hosts if container restarts by version upgrade or so.</p>
+<p><strong>PORT_BIND_IP</strong> is special environment variable for the agent it will bind the services to.</p>
+<p>It must be accessible from the loadbalancing edge nodes so it usually is the LAN-address of the halti worker machine.</p>
+<pre><code>docker run -d --restart=always --privileged -v /var/run/docker.sock:/var/run/docker.sock -e DOCKER_HOST=unix:///var/run/docker.sock -e HALTI_SERVER=https://halti-master-address:4040 -e PORT_BIND_IP=192.168.1.100 emblica/halti-agent
+</code></pre>
+
+<h2 id="luotsi-loadbalancing">Luotsi - loadbalancing</h2>
+<p>Usually all halti worker nodes are also edge nodes but that is not a requirement.</p>
+<p>Luotsi has following dependencies:
+- latest stable Haproxy
+- latest stable Node.js</p>
+<h3 id="installing-luotsi">Installing luotsi</h3>
+<pre><code>git clone https://github.com/emblica/luotsi.git
+cd luotsi
+# Install dependencies
+npm install
+</code></pre>
+
+<h3 id="running-luotsi">Running luotsi</h3>
+<p>Before luotsi can be run you must first setup all the needed environment variables:</p>
+<pre><code>SSL_ENABLED=true/false
+CERT_PATH=absolute path to certificate pem
+MAINTENANCE_PAGE=absolute path to haproxy compatible maintenance page
+STATS_USER=username of haproxy status web gui
+STATS_PASS=password of haproxy status web guy
+HALTI_URL=url of the halti master
+</code></pre>
+
+<p>After environment variables are set just</p>
+<pre><code>node luotsi.js
+</code></pre>
+              
+            </div>
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../scheduler/" class="btn btn-neutral float-right" title="Scheduler">Next <span class="icon icon-circle-arrow-right"></span></a>
+      
+      
+        <a href="../getting_started/" class="btn btn-neutral" title="Getting started"><span class="icon icon-circle-arrow-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+    
+  </div>
+
+  Built with <a href="http://www.mkdocs.org">MkDocs</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+	  
+        </div>
+      </div>
+
+    </section>
+    
+  </div>
+
+  <div class="rst-versions" role="note" style="cursor: pointer">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+      
+      
+        <span><a href="../getting_started/" style="color: #fcfcfc;">&laquo; Previous</a></span>
+      
+      
+        <span style="margin-left: 15px"><a href="../scheduler/" style="color: #fcfcfc">Next &raquo;</a></span>
+      
+    </span>
+</div>
+    <script src="../js/theme.js"></script>
+
+</body>
+</html>
