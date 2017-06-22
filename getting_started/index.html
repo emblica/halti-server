@@ -188,7 +188,7 @@ echo $HELLO_WORLD_SERVICE
 </code></pre>
 
 <p>Check that your service is scheduled to run in some server:</p>
-<pre><code>curl &quot;http://halti-master.services.upcloud.com:4040/api/v1/services/${HELLO_WORLD_SERVICE}&quot; | jq .
+<pre><code>curl &quot;http://halti-master.example.com:4040/api/v1/services/${HELLO_WORLD_SERVICE}&quot; | jq .
 </code></pre>
 
 <p>Prints out:</p>

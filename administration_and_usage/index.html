@@ -226,7 +226,7 @@ It will <em>call home</em> to the pointed <strong>master</strong> and register i
 <p>If there is <code>allocated_instances</code> scheduler has already scheduled it to run in some node(s).
 So then the problem is outside Halti master, somewhere else.</p>
 <p>To investigate scheduling problems you should curl the following endpoint:</p>
-<pre><code>curl http://halti-master.services.example.com:4040/api/v1/state | jq .
+<pre><code>curl http://halti-master.example.com:4040/api/v1/state | jq .
 </code></pre>
 
 <pre><code>{
